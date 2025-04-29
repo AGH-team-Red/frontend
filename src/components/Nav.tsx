@@ -10,6 +10,8 @@ import {
   BreadcrumbSeparator,
 } from "./ui/breadcrumb";
 
+import { mockedRequests } from "@/lib/mock";
+
 export default function Nav() {
   const pathname = usePathname();
 
@@ -33,16 +35,25 @@ export default function Nav() {
     segments.forEach((segment, idx) => {
       path += `/${segment}`;
 
-      const formattedSegment = segment
-        .replace(/-/g, " ")
-        .replace(/\b\w/g, (char) => char.toUpperCase());
+      let displayText = segment;
+      if (segments[0] === "requests" && idx === 1) {
+        const requestId = segment;
+        const request = mockedRequests.find((req) => req.id === requestId);
+        if (request) {
+          displayText = request.name;
+        }
+      } else {
+        displayText = segment
+          .replace(/-/g, " ")
+          .replace(/\b\w/g, (char) => char.toUpperCase());
+      }
 
       breadcrumbItems.push(
         <BreadcrumbItem key={path}>
           {idx === segments.length - 1 ? (
-            <BreadcrumbPage>{formattedSegment}</BreadcrumbPage>
+            <BreadcrumbPage>{displayText}</BreadcrumbPage>
           ) : (
-            <BreadcrumbLink href={path}>{formattedSegment}</BreadcrumbLink>
+            <BreadcrumbLink href={path}>{displayText}</BreadcrumbLink>
           )}
         </BreadcrumbItem>,
       );

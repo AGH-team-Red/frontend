@@ -2,6 +2,7 @@ import type { Request } from "./types";
 
 export const mockedRequests: Request[] = [
   {
+    id: "1",
     name: "Dummy Name",
     status: "Active",
     budget: 2,
@@ -18,6 +19,7 @@ export const mockedRequests: Request[] = [
     ],
   },
   {
+    id: "2",
     name: "Dummy Name2",
     status: "Pending",
     budget: 1,
@@ -29,6 +31,7 @@ export const mockedRequests: Request[] = [
     features: [],
   },
   {
+    id: "3",
     name: "Dummy Name3",
     status: "Completed",
     budget: 3,

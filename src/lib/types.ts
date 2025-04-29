@@ -1,6 +1,7 @@
 export type RequestStatus = "Active" | "Pending" | "Completed" | "Expired";
 
 export type Request = {
+  id: string;
   name: string;
   status: RequestStatus;
   startDate: Date;
