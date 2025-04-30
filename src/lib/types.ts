@@ -3,6 +3,8 @@ export type RequestStatus = "Active" | "Pending" | "Completed" | "Expired";
 export type Request = {
   id: string;
   name: string;
+  desc: string;
+  datasetName: string;
   status: RequestStatus;
   startDate: Date;
   dueDate: Date;
@@ -13,8 +15,14 @@ export type Request = {
   features: Feature[];
 };
 
+type FeatureType = "Description" | "something";
+
 type Feature = {
-  // TODO
   name: string;
   desc: string;
+  guidelines?: {
+    image: string;
+    label: string;
+  };
+  type: FeatureType;
 };
