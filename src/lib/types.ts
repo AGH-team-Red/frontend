@@ -17,6 +17,11 @@ export type Request = {
 
 type FeatureType = "Description" | "something";
 
+export type ExampleFeature = {
+  image: string;
+  label: string;
+};
+
 type Feature = {
   name: string;
   desc: string;
@@ -25,4 +30,5 @@ type Feature = {
     label: string;
   };
   type: FeatureType;
+  exampleFeatures: ExampleFeature[];
 };

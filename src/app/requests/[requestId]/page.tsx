@@ -1,7 +1,9 @@
+import ExampleFeatureDialog from "@/components/ExampleFeatureDialog";
 import ProgressCircle from "@/components/ProgressCircle";
 import { Card, CardContent } from "@/components/ui/card";
-import { mockedRequests } from "@/lib/mock";
 import { Citrus } from "lucide-react";
+
+import { mockedRequests } from "@/lib/mock";
 
 const STATUS_DISPLAY: Record<string, string> = {
   Active: "ACT",
@@ -84,7 +86,14 @@ export default async function Page({
             <Card key={feature.name} className="p-0">
               <CardContent className="p-3">
                 <div className="flex flex-col gap-2 space-y-1">
-                  <h1>{feature.name}</h1>
+                  <div className="flex items-center justify-between">
+                    <h1>{feature.name}</h1>
+                    {feature.exampleFeatures.length > 0 && (
+                      <ExampleFeatureDialog
+                        exampleFeatures={feature.exampleFeatures}
+                      />
+                    )}
+                  </div>
                   <div className="flex items-center gap-2">
                     <Citrus size={16} />
                     Name: {feature.name}

@@ -22,6 +22,16 @@ export const mockedRequests: Request[] = [
           label: "label guidelines",
         },
         type: "Description",
+        exampleFeatures: [
+          {
+            image: "https://picsum.photos/300/200?random=1",
+            label: "Label 1",
+          },
+          {
+            image: "https://picsum.photos/300/200?random=2",
+            label: "Label 2",
+          },
+        ],
       },
       {
         name: "Feature 2",
@@ -31,6 +41,16 @@ export const mockedRequests: Request[] = [
           label: "label guidelines",
         },
         type: "Description",
+        exampleFeatures: [
+          {
+            image: "https://picsum.photos/300/200?random=3",
+            label: "Label 3",
+          },
+          {
+            image: "https://picsum.photos/300/200?random=4",
+            label: "Label 4",
+          },
+        ],
       },
     ],
   },
@@ -69,6 +89,16 @@ export const mockedRequests: Request[] = [
           label: "label guidelines",
         },
         type: "Description",
+        exampleFeatures: [
+          {
+            image: "https://picsum.photos/300/200?random=5",
+            label: "Label 1",
+          },
+          {
+            image: "https://picsum.photos/300/200?random=6",
+            label: "Label 2",
+          },
+        ],
       },
       {
         name: "Feature 2",
@@ -78,6 +108,7 @@ export const mockedRequests: Request[] = [
           label: "label guidelines",
         },
         type: "Description",
+        exampleFeatures: [],
       },
       {
         name: "Feature 3",
@@ -87,6 +118,16 @@ export const mockedRequests: Request[] = [
           label: "label guidelines",
         },
         type: "Description",
+        exampleFeatures: [
+          {
+            image: "https://picsum.photos/300/200?random=7",
+            label: "Label 3",
+          },
+          {
+            image: "https://picsum.photos/300/200?random=8",
+            label: "Label 4",
+          },
+        ],
       },
     ],
   },
