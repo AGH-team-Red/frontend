@@ -3,9 +3,12 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="flex h-screen flex-col items-center justify-center gap-4">
       <Link href="/requests">
-        <Button className="cursor-pointer">Click me</Button>
+        <Button className="cursor-pointer">My requests</Button>
+      </Link>
+      <Link href="/create-request">
+        <Button className="cursor-pointer">Create a request</Button>
       </Link>
     </div>
   );
