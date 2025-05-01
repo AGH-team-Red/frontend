@@ -45,6 +45,13 @@ const formSchema = z.object({
   dueDate: z.date(),
   budget: z.coerce.number().min(1, "Budget is required"),
   language: z.string().min(1, "Language is required"),
+  datasetName: z.string(),
+  datasetDesc: z.string(),
+  totalSamples: z.coerce
+    .number()
+    .min(1, "Minimal dataset samples are required"),
+  imageGuidelines: z.string(),
+  // exampleImage:
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -52,14 +59,6 @@ type FormSchema = z.infer<typeof formSchema>;
 export default function CreateRequest() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      desc: "",
-      startDate: new Date(),
-      dueDate: new Date(),
-      budget: 0,
-      language: "",
-    },
   });
 
   const onSubmit = (data: FormSchema) => {
@@ -67,18 +66,15 @@ export default function CreateRequest() {
   };
 
   return (
-    <div className="space-y-2.5 p-4">
+    <div className="space-y-3 p-4">
       <h1 className="text-2xl">Create dataset request</h1>
       <p className="text-sm">Description of add request section</p>
 
-      <Card className="p-0">
-        <CardContent className="p-3 text-xs">
-          <h1 className="mb-2.5 text-sm">Specify request details</h1>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-2.5"
-            >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+          <Card className="p-0">
+            <CardContent className="space-y-2.5 p-3 text-xs">
+              <h1 className="mb-2.5 text-sm">Specify request details</h1>
               <FormField
                 control={form.control}
                 name="name"
@@ -92,7 +88,11 @@ export default function CreateRequest() {
                       Request name
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter request name..." {...field} />
+                      <Input
+                        placeholder="Enter request name..."
+                        {...field}
+                        className="text-xs placeholder:text-xs"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -111,6 +111,7 @@ export default function CreateRequest() {
                     </FormLabel>
                     <FormControl>
                       <Textarea
+                        className="text-xs placeholder:text-xs"
                         placeholder="Enter request description..."
                         {...field}
                       />
@@ -136,7 +137,7 @@ export default function CreateRequest() {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "pl-3 text-left font-normal",
+                              "pl-3 text-left text-xs font-normal",
                               !field.value && "text-muted-foreground",
                             )}
                           >
@@ -154,9 +155,11 @@ export default function CreateRequest() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
+                          disabled={(date) => {
+                            const yesterday = new Date();
+                            yesterday.setDate(yesterday.getDate() - 1);
+                            return date <= yesterday;
+                          }}
                           initialFocus
                         />
                       </PopoverContent>
@@ -182,7 +185,7 @@ export default function CreateRequest() {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "pl-3 text-left font-normal",
+                              "pl-3 text-left text-xs font-normal",
                               !field.value && "text-muted-foreground",
                             )}
                           >
@@ -200,9 +203,7 @@ export default function CreateRequest() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
+                          disabled={(date) => date < new Date()}
                           initialFocus
                         />
                       </PopoverContent>
@@ -227,6 +228,7 @@ export default function CreateRequest() {
                         placeholder="Enter amount..."
                         {...field}
                         type="number"
+                        className="text-xs placeholder:text-xs"
                       />
                     </FormControl>
                     <FormMessage />
@@ -262,10 +264,137 @@ export default function CreateRequest() {
                   </FormItem>
                 )}
               />
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+
+          <Card className="p-0">
+            <CardContent className="space-y-2.5 p-3 text-xs">
+              <h1 className="mb-2.5 text-sm">Specify dataset details</h1>
+              <FormField
+                control={form.control}
+                name="datasetName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      <IconTooltip text="Dummy text">
+                        {/* TODO */}
+                        <Citrus size={16} />
+                      </IconTooltip>
+                      Dataset name
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter dataset name..."
+                        className="text-xs placeholder:text-xs"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="datasetDesc"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      <IconTooltip text="Dummy text">
+                        {/* TODO */}
+                        <Citrus size={16} />
+                      </IconTooltip>
+                      Dataset description
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="text-xs placeholder:text-xs"
+                        placeholder="Enter dataset description..."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="totalSamples"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      <IconTooltip text="Dummy text">
+                        {/* TODO */}
+                        <Citrus size={16} />
+                      </IconTooltip>
+                      Minimal dataset samples
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="text-xs placeholder:text-xs"
+                        type="number"
+                        placeholder="Enter samples number..."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+          <Card className="p-0">
+            <CardContent className="space-y-2.5 p-3 text-xs">
+              <h1 className="mb-2.5 text-sm">Add image guidelines</h1>
+              <FormField
+                control={form.control}
+                name="imageGuidelines"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      <IconTooltip text="Dummy text">
+                        {/* TODO */}
+                        <Citrus size={16} />
+                      </IconTooltip>
+                      Image guidelines:
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="text-xs placeholder:text-xs"
+                        placeholder="Explain to user how you would like the picture to be taken..."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField // TODO ADD IMAGE UPLOAD
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      <IconTooltip text="Dummy text">
+                        {/* TODO */}
+                        <Citrus size={16} />
+                      </IconTooltip>
+                      Upload example image
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="text-xs placeholder:text-xs"
+                        placeholder="Drop image or upload from Your device"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+        </form>
+      </Form>
     </div>
   );
 }
