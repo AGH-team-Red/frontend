@@ -40,12 +40,10 @@ import { z } from "zod";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  desc: z.string().min(1, "Description is required"),
   startDate: z.date(),
   dueDate: z.date(),
   budget: z.coerce.number().min(1, "Budget is required"),
   language: z.string().min(1, "Language is required"),
-  datasetName: z.string(),
   datasetDesc: z.string(),
   totalSamples: z.coerce
     .number()
@@ -92,28 +90,6 @@ export default function CreateRequest() {
                         placeholder="Enter request name..."
                         {...field}
                         className="text-xs placeholder:text-xs"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="desc"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        <Citrus size={16} />
-                      </IconTooltip>
-                      Request description
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className="text-xs placeholder:text-xs"
-                        placeholder="Enter request description..."
-                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -272,29 +248,6 @@ export default function CreateRequest() {
               <h1 className="mb-2.5 text-sm">Specify dataset details</h1>
               <FormField
                 control={form.control}
-                name="datasetName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        {/* TODO */}
-                        <Citrus size={16} />
-                      </IconTooltip>
-                      Dataset name
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter dataset name..."
-                        className="text-xs placeholder:text-xs"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="datasetDesc"
                 render={({ field }) => (
                   <FormItem>
@@ -306,9 +259,9 @@ export default function CreateRequest() {
                       Dataset description
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        className="text-xs placeholder:text-xs"
+                      <Textarea
                         placeholder="Enter dataset description..."
+                        className="text-xs placeholder:text-xs"
                         {...field}
                       />
                     </FormControl>

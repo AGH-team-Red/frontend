@@ -4,8 +4,8 @@ export const mockedRequests: Request[] = [
   {
     id: "1",
     name: "Dummy Name",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    datasetName: "Dummy Dataset",
+    datasetDesc:
+      "some long dataset description that no one will read and care about",
     status: "Active",
     budget: 2,
     startDate: new Date("07-01-2024"),
@@ -16,49 +16,21 @@ export const mockedRequests: Request[] = [
     features: [
       {
         name: "Feature 1",
-        desc: "Description of feature 1",
-        guidelines: {
-          image: "image guidelines",
-          label: "label guidelines",
-        },
+        labelGuidelines: "label guidelines",
         type: "Description",
-        exampleFeatures: [
-          {
-            image: "https://picsum.photos/300/200?random=1",
-            label: "Label 1",
-          },
-          {
-            image: "https://picsum.photos/300/200?random=2",
-            label: "Label 2",
-          },
-        ],
       },
       {
         name: "Feature 2",
-        desc: "Description of feature 2",
-        guidelines: {
-          image: "image guidelines",
-          label: "label guidelines",
-        },
+        labelGuidelines: "label guidelines",
         type: "Description",
-        exampleFeatures: [
-          {
-            image: "https://picsum.photos/300/200?random=3",
-            label: "Label 3",
-          },
-          {
-            image: "https://picsum.photos/300/200?random=4",
-            label: "Label 4",
-          },
-        ],
       },
     ],
   },
   {
     id: "2",
     name: "Dummy Name2",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    datasetName: "Dummy Dataset",
+    datasetDesc:
+      "some long dataset description that no one will read and care about",
     status: "Pending",
     budget: 1,
     startDate: new Date("07-01-2024"),
@@ -71,8 +43,8 @@ export const mockedRequests: Request[] = [
   {
     id: "3",
     name: "Dummy Name3",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    datasetName: "Dummy Dataset",
+    datasetDesc:
+      "some long dataset description that no one will read and care about",
     status: "Completed",
     budget: 3,
     startDate: new Date("07-01-2024"),
@@ -83,51 +55,18 @@ export const mockedRequests: Request[] = [
     features: [
       {
         name: "Feature 1",
-        desc: "Description of feature 1",
-        guidelines: {
-          image: "image guidelines",
-          label: "label guidelines",
-        },
+        labelGuidelines: "label guidelines",
         type: "Description",
-        exampleFeatures: [
-          {
-            image: "https://picsum.photos/300/200?random=5",
-            label: "Label 1",
-          },
-          {
-            image: "https://picsum.photos/300/200?random=6",
-            label: "Label 2",
-          },
-        ],
       },
       {
         name: "Feature 2",
-        desc: "Description of feature 2",
-        guidelines: {
-          image: "image guidelines",
-          label: "label guidelines",
-        },
+        labelGuidelines: "label guidelines",
         type: "Description",
-        exampleFeatures: [],
       },
       {
         name: "Feature 3",
-        desc: "Description of feature 3",
-        guidelines: {
-          image: "image guidelines",
-          label: "label guidelines",
-        },
+        labelGuidelines: "label guidelines",
         type: "Description",
-        exampleFeatures: [
-          {
-            image: "https://picsum.photos/300/200?random=7",
-            label: "Label 3",
-          },
-          {
-            image: "https://picsum.photos/300/200?random=8",
-            label: "Label 4",
-          },
-        ],
       },
     ],
   },

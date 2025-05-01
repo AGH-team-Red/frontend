@@ -3,8 +3,7 @@ export type RequestStatus = "Active" | "Pending" | "Completed" | "Expired";
 export type Request = {
   id: string;
   name: string;
-  desc: string;
-  datasetName: string;
+  datasetDesc: string;
   status: RequestStatus;
   startDate: Date;
   dueDate: Date;
@@ -17,18 +16,8 @@ export type Request = {
 
 type FeatureType = "Description" | "something";
 
-export type ExampleFeature = {
-  image: string;
-  label: string;
-};
-
-type Feature = {
+export type Feature = {
   name: string;
-  desc: string;
-  guidelines?: {
-    image: string;
-    label: string;
-  };
+  labelGuidelines: string;
   type: FeatureType;
-  exampleFeatures: ExampleFeature[];
 };

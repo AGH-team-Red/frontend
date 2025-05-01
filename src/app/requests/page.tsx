@@ -30,7 +30,9 @@ export default function Requests() {
 
   return (
     <div className="space-y-4 p-4">
-      <Button>New request</Button>
+      <Link href="/requests/new" className="block">
+        <Button>New request</Button>
+      </Link>
 
       <div className="bg-card flex justify-evenly border p-2">
         {FILTER_OPTIONS.map((filter) => (
