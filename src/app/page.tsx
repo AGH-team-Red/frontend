@@ -10,6 +10,9 @@ export default function Home() {
       <Link href="/requests/new">
         <Button className="cursor-pointer">Create a request</Button>
       </Link>
+      <Link href="/user-requests">
+        <Button className="cursor-pointer">User requests</Button>
+      </Link>
     </div>
   );
 }
