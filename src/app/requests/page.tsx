@@ -1,11 +1,8 @@
 "use client";
-
-import ProgressCircle from "@/components/ProgressCircle";
+import RequestCard from "@/components/RequestCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import type { RequestStatus } from "@/lib/types";
-import { Citrus } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -48,36 +45,17 @@ export default function Requests() {
       </div>
 
       {requests.map((request) => (
-        <Link
-          key={request.id}
-          href={`/requests/${request.id}`}
-          className="block"
-        >
-          <Card className="py-3">
-            <CardContent className="flex gap-2 px-3">
-              <div className="flex items-center p-4">
-                <ProgressCircle
-                  current={request.samplesCurrent}
-                  total={request.samplesTotal}
-                />
-              </div>
-              <div className="flex flex-1 flex-col space-y-2 text-xs">
-                <div className="flex justify-between">
-                  {request.name} <Badge>{request.status}</Badge>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Citrus size={16} />
-                  Samples collected: {request.samplesCurrent}/
-                  {request.samplesTotal}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Citrus size={16} />
-                  Active until: {request.dueDate.toLocaleDateString("en-GB")}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
+        <RequestCard
+          key={request.name}
+          userType="client"
+          id={request.id}
+          name={request.name}
+          dueDate={request.dueDate}
+          samplesCurrent={request.samplesCurrent}
+          samplesTotal={request.samplesTotal}
+          status={request.status}
+          onClickRoute="requests"
+        />
       ))}
     </div>
   );

@@ -11,6 +11,10 @@ export type Request = {
   samplesTotal: number;
   budget: number;
   language: string;
+  entryFee: number;
+  minContributors: number;
+  contributors: number;
+  reward: number;
   features: Feature[];
 };
 

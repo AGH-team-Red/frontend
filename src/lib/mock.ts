@@ -12,6 +12,10 @@ export const mockedRequests: Request[] = [
     dueDate: new Date("07-24-2024"),
     samplesCurrent: 32,
     samplesTotal: 100,
+    entryFee: 0.03,
+    minContributors: 20,
+    contributors: 10,
+    reward: 0.3,
     language: "English",
     features: [
       {
@@ -38,6 +42,10 @@ export const mockedRequests: Request[] = [
     samplesCurrent: 0,
     samplesTotal: 0,
     language: "English",
+    entryFee: 0.04,
+    minContributors: 60,
+    contributors: 40,
+    reward: 0.2,
     features: [],
   },
   {
@@ -52,6 +60,10 @@ export const mockedRequests: Request[] = [
     samplesCurrent: 100,
     samplesTotal: 100,
     language: "English",
+    entryFee: 0.05,
+    minContributors: 30,
+    contributors: 5,
+    reward: 0.1,
     features: [
       {
         name: "Feature 1",
