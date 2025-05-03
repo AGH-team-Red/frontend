@@ -25,42 +25,48 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { IconTooltip } from "../IconTooltip";
+import {
+  formRequestSchema,
+  type RequestFormSchema,
+} from "./NewRequestForm.utils";
+
+import { useDatasetRequest } from "@/context/DatasetRequestContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { CalendarIcon, Citrus } from "lucide-react";
+import { CalendarIcon, Citrus, X } from "lucide-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import Link from "next/link";
 
-const formSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  startDate: z.date(),
-  dueDate: z.date(),
-  budget: z.coerce.number().min(1, "Budget is required"),
-  language: z.string().min(1, "Language is required"),
-  datasetDesc: z.string(),
-  totalSamples: z.coerce
-    .number()
-    .min(1, "Minimal dataset samples are required"),
-  imageGuidelines: z.string(),
-  // exampleImage:
-});
+export default function NewRequestForm() {
+  const { formData, updateFormData, features, removeFeature } =
+    useDatasetRequest();
 
-type FormSchema = z.infer<typeof formSchema>;
-
-export default function CreateRequest() {
-  const form = useForm<FormSchema>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<RequestFormSchema>({
+    resolver: zodResolver(formRequestSchema),
+    defaultValues: formData,
   });
 
-  const onSubmit = (data: FormSchema) => {
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      updateFormData(value as Partial<RequestFormSchema>);
+    });
+    return () => subscription.unsubscribe();
+  }, [form, updateFormData]);
+
+  useEffect(() => {
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value !== undefined) {
+        form.setValue(key as keyof RequestFormSchema, value);
+      }
+    });
+  }, []);
+
+  const onSubmit = (data: RequestFormSchema) => {
     console.log(data);
+    console.log(features);
   };
 
   return (
@@ -346,27 +352,54 @@ export default function CreateRequest() {
               />
             </CardContent>
           </Card>
+
+          <Card className="p-0">
+            <CardContent className="space-y-2.5 p-3 text-xs">
+              <div className="mb-2.5 flex items-center justify-between">
+                <h1 className="text-sm">Build dataset structure</h1>
+                <Link passHref href="/requests/create-feature">
+                  <Button type="button" size="sm" className="text-xs">
+                    Add feature
+                  </Button>
+                </Link>
+              </div>
+              <p>
+                Create dataset structure by adding features it requires. You can
+                also add examples to showcase user how would you like gathered
+                images to be labeled.
+              </p>
+
+              {features.length === 0 ? (
+                <p className="text-muted-foreground">No features added yet.</p>
+              ) : (
+                <div className="space-y-2">
+                  {features.map((feature) => (
+                    <Card key={feature.id} className="p-3">
+                      <div className="flex justify-between">
+                        <div>
+                          <p className="font-medium">
+                            Feature name: {feature.name}
+                          </p>
+                          <p className="text-muted-foreground">
+                            Label guidelines: {feature.labelGuidelines}
+                          </p>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeFeature(feature.id)}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </form>
       </Form>
     </div>
   );
 }
-
-const IconTooltip = ({
-  text,
-  children,
-}: {
-  text: string;
-  children: React.ReactNode;
-}) => {
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger>{children}</TooltipTrigger>
-        <TooltipContent>
-          <p>{text}</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-  );
-};

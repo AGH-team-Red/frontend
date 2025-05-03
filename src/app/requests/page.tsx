@@ -27,7 +27,7 @@ export default function Requests() {
 
   return (
     <div className="space-y-4 p-4">
-      <Link href="/requests/new" className="block">
+      <Link href="/requests/create-request" className="block">
         <Button>New request</Button>
       </Link>
 

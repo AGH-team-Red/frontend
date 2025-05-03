@@ -21,7 +21,9 @@ export type Request = {
 type FeatureType = "Description" | "something";
 
 export type Feature = {
+  id: string;
   name: string;
   labelGuidelines: string;
-  type: FeatureType;
+  labelImage: string;
+  type?: FeatureType;
 };
