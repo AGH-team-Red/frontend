@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Citrus } from "lucide-react";
 
 import { mockedRequests } from "@/lib/mock";
+import DetailsHeader from "@/components/DetailsHeader";
 
 const STATUS_DISPLAY: Record<string, string> = {
   Active: "ACT",
@@ -21,6 +22,21 @@ export default async function Page({
 
   const request = mockedRequests.find((request) => request.id === requestId);
 
+  const REQUEST_HEADER_DATA = [
+    {
+      label: "Samples",
+      value: `${request?.samplesCurrent ?? "0"}/${request?.samplesTotal ?? "0"}`,
+    },
+    {
+      label: "Budget",
+      value: `${request?.budget ?? "0"} SOL`,
+    },
+    {
+      label: "Status",
+      value: `${STATUS_DISPLAY[request?.status ?? 0]}`,
+    },
+  ];
+
   if (!request) {
     return <div>Request not found</div>;
   }
@@ -28,40 +44,15 @@ export default async function Page({
   return (
     <div className="space-y-3 p-4">
       <h1 className="text-2xl">{request.name}</h1>
-      <Card className="p-6">
-        <CardContent className="flex flex-col gap-3 p-0">
-          <div className="flex gap-2">
-            <div className="flex items-center pr-4">
-              <ProgressCircle
-                current={request.samplesCurrent}
-                total={request.samplesTotal}
-              />
-            </div>
-            <div className="flex flex-1 flex-col space-y-2">
-              <h1 className="text-base">{request.name}</h1>
-              <div className="flex justify-between">
-                <div>
-                  <h2 className="text-xs">Samples</h2>
-                  <p className="text-2xl">
-                    {request.samplesCurrent}/{request.samplesTotal}
-                  </p>
-                </div>
-                <div>
-                  <h2 className="text-xs">Budget</h2>
-                  <p className="text-2xl">{request.budget} SOL</p>
-                </div>
-                <div>
-                  <h2 className="text-xs">Status</h2>
-                  <p className="text-2xl">{STATUS_DISPLAY[request.status]}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <p className="text-sm">{request.datasetDesc}</p>
-          </div>
-        </CardContent>
-      </Card>
+      <DetailsHeader
+        datasetName={request.name}
+        requestDescrption={request.datasetDesc}
+        progressCircleData={{
+          samplesCurrent: request.samplesCurrent,
+          samplesTotal: request.samplesTotal,
+        }}
+        requestHeaderData={REQUEST_HEADER_DATA}
+      />
 
       <Card className="p-0">
         <CardContent className="space-y-2.5 p-3 text-xs">
