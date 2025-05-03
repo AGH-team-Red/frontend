@@ -1,5 +1,4 @@
 import ExampleImageDialog from "@/components/ExampleImageDialog";
-import ProgressCircle from "@/components/ProgressCircle";
 import { Card, CardContent } from "@/components/ui/card";
 import { Citrus } from "lucide-react";
 

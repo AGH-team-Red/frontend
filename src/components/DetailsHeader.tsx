@@ -35,12 +35,12 @@ const DetailsHeader = ({
             />
           </div>
           <div className="flex flex-1 flex-col space-y-2">
-            <h1 className="text-base">{datasetName}</h1>
+            <h2 className="text-md font-medium">{datasetName}</h2>
             <div className="flex gap-3">
               {requestHeaderData.map((item) => (
                 <div key={item.value} className="flex flex-col">
-                  <h2 className="text-xs">{item.label}</h2>
-                  <p className="text-2xl">{item.value}</p>
+                  <span className="text-xs">{item.label}</span>
+                  <span className="text-2xl">{item.value}</span>
                 </div>
               ))}
             </div>
