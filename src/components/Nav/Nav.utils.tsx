@@ -88,9 +88,7 @@ const processSegment = ({
 
   let displayText = segment;
 
-  if (segment === "requests") {
-    return;
-  } else if (segment === "user" || segment === "customer") {
+  if (segment === "user" || segment === "customer" || segment === "requests") {
     displayText = "Requests";
   } else if (segments[0] === "requests") {
     if (segment === "create-request") {
