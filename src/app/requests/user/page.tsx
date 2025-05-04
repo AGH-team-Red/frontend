@@ -1,6 +1,6 @@
 'use client';
 
-import RequestCard from '@/components/RequestCard';
+import OrderCard from '@/components/OrderCard/OrderCard';
 import { useOrders } from '@/hooks/api/use-orders';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -17,21 +17,8 @@ export default function Requests() {
 
   return (
     <div className="space-y-4 p-4">
-      {query.data.map((request) => (
-        <RequestCard
-          key={request.name}
-          userType="user"
-          id={request.id}
-          name={request.name}
-          dueDate={new Date(request.dueDate)}
-          samplesCurrent={request.samplesCurrent}
-          samplesTotal={request.samplesTotal}
-          reward={request.reward}
-          contributors={request.contributors}
-          minContributors={request.minContributors}
-          entryFee={request.entryFee}
-          onClickRoute="user-requests"
-        />
+      {query.data.map((order) => (
+        <OrderCard key={order.name} userType="user" order={order} onClickRoute="requests/user" />
       ))}
     </div>
   );

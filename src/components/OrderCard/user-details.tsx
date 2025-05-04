@@ -1,0 +1,30 @@
+import { TCardDetails, UserDetails } from '@/components/OrderCard/types';
+import { Citrus } from 'lucide-react';
+
+const createUserDetails = (userDetails: UserDetails): TCardDetails[] => {
+  const {
+    userType,
+    order: { contributors, entryFee, endDate, minContributors }
+  } = userDetails;
+  const isUser = userType === 'user';
+
+  return [
+    {
+      icon: <Citrus size={16} />,
+      label: 'Contributors: ',
+      values: isUser ? `${contributors}/${minContributors}` : ''
+    },
+    {
+      icon: <Citrus size={16} />,
+      label: 'Entry fee: ',
+      values: isUser ? `${entryFee} SOL` : ''
+    },
+    {
+      icon: <Citrus size={16} />,
+      label: 'Active until: ',
+      values: new Date(`${endDate}`).toLocaleDateString('en-GB')
+    }
+  ];
+};
+
+export { createUserDetails };

@@ -1,26 +1,32 @@
 'use client';
-import RequestCard from '@/components/RequestCard';
+import OrderCard from '@/components/OrderCard/OrderCard';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import type { RequestStatus } from '@/lib/types';
+import type { OrderStatus } from '@/lib/types';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useOrders } from '@/hooks/api/use-orders';
 
-import { mockedRequests } from '@/lib/mock';
-
-type RequestStatusFilter = RequestStatus | 'All';
+type RequestStatusFilter = OrderStatus | 'All';
 
 const FILTER_OPTIONS: RequestStatusFilter[] = ['All', 'Active', 'Pending', 'Completed', 'Expired'];
 
 export default function Requests() {
   const [activeFilter, setActiveFilter] = useState<RequestStatusFilter>('All');
+  const orders = useOrders();
 
-  const requests = mockedRequests.filter((request) => activeFilter === 'All' || request.status === activeFilter);
+  if (orders.isLoading) {
+    return <div>Loading ...</div>;
+  }
+
+  if (orders.error || !orders.data) {
+    return <div>Error</div>;
+  }
 
   return (
     <div className="space-y-4 p-4">
       <Link href="/requests/create-request" className="block">
-        <Button>New request</Button>
+        <Button>New order</Button>
       </Link>
 
       <div className="bg-card flex justify-evenly border p-2">
@@ -36,18 +42,8 @@ export default function Requests() {
         ))}
       </div>
 
-      {requests.map((request) => (
-        <RequestCard
-          key={request.name}
-          userType="client"
-          id={request.id}
-          name={request.name}
-          dueDate={request.dueDate}
-          samplesCurrent={request.samplesCurrent}
-          samplesTotal={request.samplesTotal}
-          status={request.status}
-          onClickRoute="requests"
-        />
+      {orders.data.map((order) => (
+        <OrderCard key={order.name} userType="client" order={order} onClickRoute="requests/customer" />
       ))}
     </div>
   );

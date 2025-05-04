@@ -7,4 +7,10 @@ const fetchOrders = async (): Promise<Array<Request>> => {
   return response;
 };
 
-export { fetchOrders };
+const fetchOrder = async (orderId: string): Promise<Request> => {
+  const response = await httpClient.get<Request>(`http://localhost:3001/orders/${orderId}`, {});
+
+  return response;
+};
+
+export { fetchOrders, fetchOrder };

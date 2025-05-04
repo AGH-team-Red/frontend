@@ -1,9 +1,11 @@
+'use client';
+
 import { useQuery } from '@tanstack/react-query';
-import { Request } from '@/lib/types';
 import { fetchOrders } from '@/api/orders';
+import { Order } from '@/lib/types';
 
 const useOrders = () => {
-  const { error, data, isLoading } = useQuery<Request[]>({
+  const { error, data, isLoading } = useQuery<Order[]>({
     queryFn: fetchOrders,
     queryKey: ['orders']
   });
