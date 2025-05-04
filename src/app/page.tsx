@@ -7,7 +7,7 @@ export default function Home() {
       <Link href="/requests">
         <Button className="cursor-pointer">My requests</Button>
       </Link>
-      <Link href="/requests/new">
+      <Link href="/requests/create-request">
         <Button className="cursor-pointer">Create a request</Button>
       </Link>
       <Link href="/user-requests">
