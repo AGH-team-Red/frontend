@@ -1,12 +1,12 @@
-"use-client";
+'use-client';
 
-import ProgressCircle from "@/components/ProgressCircle";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Citrus } from "lucide-react";
-import Link from "next/link";
-import { RequestStatus } from "@/lib/types";
+import ProgressCircle from '@/components/ProgressCircle';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Citrus } from 'lucide-react';
+import Link from 'next/link';
+import { RequestStatus } from '@/lib/types';
 
 type TBaseProps = {
   id: string;
@@ -18,12 +18,12 @@ type TBaseProps = {
 };
 
 type TClientCardProps = TBaseProps & {
-  userType: "client";
+  userType: 'client';
   status: RequestStatus;
 };
 
 type TUserCardProps = TBaseProps & {
-  userType: "user";
+  userType: 'user';
   reward: number;
   contributors: number;
   minContributors: number;
@@ -39,40 +39,39 @@ type TCardDetails = {
 };
 
 const RequestCard = (props: TRequestCardProps) => {
-  const { id, name, dueDate, samplesCurrent, samplesTotal, onClickRoute } =
-    props;
+  const { id, name, dueDate, samplesCurrent, samplesTotal, onClickRoute } = props;
 
-  const isUser = props.userType === "user";
+  const isUser = props.userType === 'user';
 
   const userDetails = [
     {
       icon: <Citrus size={16} />,
-      label: "Contributors: ",
-      values: isUser ? `${props.contributors}/${props.minContributors}` : "",
+      label: 'Contributors: ',
+      values: isUser ? `${props.contributors}/${props.minContributors}` : ''
     },
     {
       icon: <Citrus size={16} />,
-      label: "Entry fee: ",
-      values: isUser ? `${props.entryFee} SOL` : "",
+      label: 'Entry fee: ',
+      values: isUser ? `${props.entryFee} SOL` : ''
     },
     {
       icon: <Citrus size={16} />,
-      label: "Active untill: ",
-      values: dueDate.toLocaleDateString("en-GB"),
-    },
+      label: 'Active untill: ',
+      values: dueDate.toLocaleDateString('en-GB')
+    }
   ];
 
   const clientDetails = [
     {
       icon: <Citrus size={16} />,
-      label: "Samples collected: ",
-      values: `${samplesCurrent}/${samplesTotal}`,
+      label: 'Samples collected: ',
+      values: `${samplesCurrent}/${samplesTotal}`
     },
     {
       icon: <Citrus size={16} />,
-      label: "Active until:",
-      values: dueDate.toLocaleDateString("en-GB"),
-    },
+      label: 'Active until:',
+      values: dueDate.toLocaleDateString('en-GB')
+    }
   ];
 
   const renderDetails = (detailsData: TCardDetails[]) => {

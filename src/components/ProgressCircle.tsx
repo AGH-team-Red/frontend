@@ -1,10 +1,4 @@
-export default function ProgressCircle({
-  current,
-  total,
-}: {
-  current: number;
-  total: number;
-}) {
+export default function ProgressCircle({ current, total }: { current: number; total: number }) {
   const percentage = total === 0 ? 0 : Math.round((current / total) * 100);
   const strokeWidth = 4;
   const size = 40;

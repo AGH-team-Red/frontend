@@ -1,29 +1,21 @@
-"use client";
-import RequestCard from "@/components/RequestCard";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import type { RequestStatus } from "@/lib/types";
-import Link from "next/link";
-import { useState } from "react";
+'use client';
+import RequestCard from '@/components/RequestCard';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import type { RequestStatus } from '@/lib/types';
+import Link from 'next/link';
+import { useState } from 'react';
 
-import { mockedRequests } from "@/lib/mock";
+import { mockedRequests } from '@/lib/mock';
 
-type RequestStatusFilter = RequestStatus | "All";
+type RequestStatusFilter = RequestStatus | 'All';
 
-const FILTER_OPTIONS: RequestStatusFilter[] = [
-  "All",
-  "Active",
-  "Pending",
-  "Completed",
-  "Expired",
-];
+const FILTER_OPTIONS: RequestStatusFilter[] = ['All', 'Active', 'Pending', 'Completed', 'Expired'];
 
 export default function Requests() {
-  const [activeFilter, setActiveFilter] = useState<RequestStatusFilter>("All");
+  const [activeFilter, setActiveFilter] = useState<RequestStatusFilter>('All');
 
-  const requests = mockedRequests.filter(
-    (request) => activeFilter === "All" || request.status === activeFilter,
-  );
+  const requests = mockedRequests.filter((request) => activeFilter === 'All' || request.status === activeFilter);
 
   return (
     <div className="space-y-4 p-4">
@@ -36,7 +28,7 @@ export default function Requests() {
           <Badge
             key={filter}
             className="cursor-pointer"
-            variant={activeFilter === filter ? "default" : "secondary"}
+            variant={activeFilter === filter ? 'default' : 'secondary'}
             onClick={() => setActiveFilter(filter)}
           >
             {filter}

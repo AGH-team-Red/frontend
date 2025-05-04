@@ -1,52 +1,31 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-import { IconTooltip } from "../IconTooltip";
-import {
-  formRequestSchema,
-  type RequestFormSchema,
-} from "./NewRequestForm.utils";
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Card, CardContent } from '@/components/ui/card';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
+import { IconTooltip } from '../IconTooltip';
+import { formRequestSchema, type RequestFormSchema } from './NewRequestForm.utils';
 
-import { useDatasetRequest } from "@/context/DatasetRequestContext";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import { CalendarIcon, Citrus, X } from "lucide-react";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import Link from "next/link";
+import { useDatasetRequest } from '@/context/DatasetRequestContext';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { format } from 'date-fns';
+import { CalendarIcon, Citrus, X } from 'lucide-react';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import Link from 'next/link';
 
 export default function NewRequestForm() {
-  const { formData, updateFormData, features, removeFeature } =
-    useDatasetRequest();
+  const { formData, updateFormData, features, removeFeature } = useDatasetRequest();
 
   const form = useForm<RequestFormSchema>({
     resolver: zodResolver(formRequestSchema),
-    defaultValues: formData,
+    defaultValues: formData
   });
 
   useEffect(() => {
@@ -92,11 +71,7 @@ export default function NewRequestForm() {
                       Request name
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter request name..."
-                        {...field}
-                        className="text-xs placeholder:text-xs"
-                      />
+                      <Input placeholder="Enter request name..." {...field} className="text-xs placeholder:text-xs" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -117,17 +92,13 @@ export default function NewRequestForm() {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "pl-3 text-left text-xs font-normal",
-                              !field.value && "text-muted-foreground",
+                              'pl-3 text-left text-xs font-normal',
+                              !field.value && 'text-muted-foreground'
                             )}
                           >
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
+                            {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
                         </FormControl>
@@ -165,17 +136,13 @@ export default function NewRequestForm() {
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "pl-3 text-left text-xs font-normal",
-                              !field.value && "text-muted-foreground",
+                              'pl-3 text-left text-xs font-normal',
+                              !field.value && 'text-muted-foreground'
                             )}
                           >
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
+                            {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
                         </FormControl>
@@ -228,10 +195,7 @@ export default function NewRequestForm() {
                       </IconTooltip>
                       Choose labeling language
                     </FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl className="w-full">
                         <SelectTrigger>
                           <SelectValue placeholder="English" />
@@ -364,9 +328,8 @@ export default function NewRequestForm() {
                 </Link>
               </div>
               <p>
-                Create dataset structure by adding features it requires. You can
-                also add examples to showcase user how would you like gathered
-                images to be labeled.
+                Create dataset structure by adding features it requires. You can also add examples to showcase user how
+                would you like gathered images to be labeled.
               </p>
 
               {features.length === 0 ? (
@@ -377,18 +340,10 @@ export default function NewRequestForm() {
                     <Card key={feature.id} className="p-3">
                       <div className="flex justify-between">
                         <div>
-                          <p className="font-medium">
-                            Feature name: {feature.name}
-                          </p>
-                          <p className="text-muted-foreground">
-                            Label guidelines: {feature.labelGuidelines}
-                          </p>
+                          <p className="font-medium">Feature name: {feature.name}</p>
+                          <p className="text-muted-foreground">Label guidelines: {feature.labelGuidelines}</p>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeFeature(feature.id)}
-                        >
+                        <Button variant="ghost" size="sm" onClick={() => removeFeature(feature.id)}>
                           <X className="h-4 w-4" />
                         </Button>
                       </div>

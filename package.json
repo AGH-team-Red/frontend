@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier:fix": "prettier --write \"src/**/*.{ts,tsx,js,mjs}\"",
+    "prettier:check": "prettier --check \"src/**/*.{ts,tsx,js,mjs}\""
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

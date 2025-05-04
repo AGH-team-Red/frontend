@@ -1,20 +1,8 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "./ui/carousel";
-import type { Feature } from "@/lib/types";
-const ExampleImageCarousel = ({
-  image,
-  features,
-}: {
-  image: string;
-  features: Feature[];
-}) => {
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
+import type { Feature } from '@/lib/types';
+const ExampleImageCarousel = ({ image, features }: { image: string; features: Feature[] }) => {
   return (
     <>
       <div className="relative aspect-[16/9] w-full">

@@ -1,29 +1,11 @@
-import { Button } from "@/components/ui/button";
-import type { Feature } from "@/lib/types";
-import Image from "next/image";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "./ui/carousel";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
-import ExampleImageCarousel from "./ExampleImageCarousel";
+import { Button } from '@/components/ui/button';
+import type { Feature } from '@/lib/types';
+import Image from 'next/image';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import ExampleImageCarousel from './ExampleImageCarousel';
 
-export default function ExampleImageDialog({
-  image,
-  features,
-}: {
-  image: string;
-  features: Feature[];
-}) {
+export default function ExampleImageDialog({ image, features }: { image: string; features: Feature[] }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
