@@ -53,3 +53,12 @@ export type Order = {
   contributors: number;
   reward: number;
 };
+
+type TaskType = 'taking picture' | 'labeling' | 'cross check';
+
+export type Task = {
+  id: string;
+  type: TaskType;
+  deadline: Date;
+  requestId: string;
+};
