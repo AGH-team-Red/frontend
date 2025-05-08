@@ -1,14 +1,14 @@
 'use client';
 
-import { type RequestFormSchema } from '@/components/NewRequestForm/NewRequestForm.utils';
+import { type CreateOrderFormSchema } from '@/components/NewRequestForm/NewRequestForm.utils';
 import type { Feature } from '@/lib/types';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 
 type DatasetRequestContextType = {
-  formData: Partial<RequestFormSchema>;
-  updateFormData: (data: Partial<RequestFormSchema>) => void;
+  formData: Partial<CreateOrderFormSchema>;
+  updateFormData: (data: Partial<CreateOrderFormSchema>) => void;
   features: Feature[];
-  addFeature: (feature: Omit<Feature, 'id'>) => void;
+  addFeature: (feature: Feature) => void;
   removeFeature: (id: string) => void;
   resetState: () => void;
 };
@@ -16,15 +16,15 @@ type DatasetRequestContextType = {
 const DatasetRequestContext = createContext<DatasetRequestContextType | undefined>(undefined);
 
 export function DatasetRequestProvider({ children }: { children: React.ReactNode }) {
-  const [formData, setFormData] = useState<Partial<RequestFormSchema>>({});
+  const [formData, setFormData] = useState<Partial<CreateOrderFormSchema>>({});
   const [features, setFeatures] = useState<Feature[]>([]);
 
-  const updateFormData = (data: Partial<RequestFormSchema>) => {
+  const updateFormData = (data: Partial<CreateOrderFormSchema>) => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
 
-  const addFeature = (feature: Omit<Feature, 'id'>) => {
-    setFeatures((prev) => [...prev, { ...feature, id: crypto.randomUUID() }]);
+  const addFeature = (feature: Feature) => {
+    setFeatures((prev) => [...prev, { ...feature, id: crypto.randomUUID()}]);
   };
 
   const removeFeature = (id: string) => {
@@ -36,16 +36,18 @@ export function DatasetRequestProvider({ children }: { children: React.ReactNode
     setFeatures([]);
   };
 
+  const value = useMemo(() => ({
+    formData,
+    updateFormData,
+    features,
+    addFeature,
+    removeFeature,
+    resetState,
+  }), [formData, features, updateFormData, addFeature, removeFeature, resetState]);
+
   return (
     <DatasetRequestContext.Provider
-      value={{
-        formData,
-        updateFormData,
-        features,
-        addFeature,
-        removeFeature,
-        resetState
-      }}
+      value={value}
     >
       {children}
     </DatasetRequestContext.Provider>

@@ -7,10 +7,10 @@ import DetailsHeader from '@/components/DetailsHeader';
 import { useOrder } from '@/hooks/api/use-order';
 
 const STATUS_DISPLAY: Record<string, string> = {
-  Active: 'ACT',
-  Pending: 'PEN',
-  Completed: 'CMP',
-  Expired: 'EXP'
+  active: 'ACT',
+  pending: 'PEN',
+  completed: 'CMP',
+  expired: 'EXP'
 };
 
 export default function Page({ requestId }: { requestId: string }): React.ReactNode {
@@ -27,7 +27,7 @@ export default function Page({ requestId }: { requestId: string }): React.ReactN
   const REQUEST_HEADER_DATA = [
     {
       label: 'Samples',
-      value: `${data.samplesCurrent ?? '0'}/${data.samplesCount ?? '0'}`
+      value: `${data.currentSamplesCount ?? '0'}/${data.minSamplesCount ?? '0'}`
     },
     {
       label: 'Budget',
@@ -44,10 +44,10 @@ export default function Page({ requestId }: { requestId: string }): React.ReactN
       <h1 className="text-2xl">{data.name}</h1>
       <DetailsHeader
         datasetName={data.name}
-        requestDescrption={data.dataset.description}
+        requestDescrption={data.datasetDescription}
         progressCircleData={{
-          samplesCurrent: data.samplesCurrent,
-          samplesTotal: data.samplesCount
+          samplesCurrent: data.currentSamplesCount,
+          samplesTotal: data.minSamplesCount
         }}
         requestHeaderData={REQUEST_HEADER_DATA}
       />
@@ -67,7 +67,7 @@ export default function Page({ requestId }: { requestId: string }): React.ReactN
           </div>
           <div className="flex items-center gap-2">
             <Citrus size={16} />
-            Label language: {data.language}
+            Label language: {data.labelingLanguage}
           </div>
         </CardContent>
       </Card>
@@ -76,7 +76,9 @@ export default function Page({ requestId }: { requestId: string }): React.ReactN
         <CardContent className="space-y-2.5 p-3 text-xs">
           <div className="flex items-center justify-between">
             <h2>Dataset image details</h2>
-            <ExampleImageDialog image="https://picsum.photos/300/200?random=1" features={data.dataset.features} />
+            {data?.features && (
+              <ExampleImageDialog image="https://picsum.photos/300/200?random=1" features={data.features} />
+            )}
           </div>
           <div className="flex items-center">
             <Citrus size={16} />
@@ -89,25 +91,26 @@ export default function Page({ requestId }: { requestId: string }): React.ReactN
       <Card className="p-0">
         <CardContent className="space-y-2.5 p-3 text-xs">
           <h2>Dataset features</h2>
-          {data.dataset.features.map((feature) => (
-            <Card key={feature.name} className="p-0">
-              <CardContent className="p-3">
-                <div className="flex flex-col gap-2 space-y-1">
-                  <div className="flex items-center justify-between">
-                    <h1>{feature.name}</h1>
+          {data.features &&
+            data.features.map((feature) => (
+              <Card key={feature.name} className="p-0">
+                <CardContent className="p-3">
+                  <div className="flex flex-col gap-2 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <h1>{feature.name}</h1>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Citrus size={16} />
+                      Label guidelines: {feature.labelGuidelines}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Citrus size={16} />
+                      Type: {feature.type}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Citrus size={16} />
-                    Label guidelines: {feature.labelGuidelines}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Citrus size={16} />
-                    Type: {feature.type}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
         </CardContent>
       </Card>
     </div>

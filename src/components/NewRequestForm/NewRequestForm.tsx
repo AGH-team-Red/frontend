@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { IconTooltip } from '../IconTooltip';
-import { formRequestSchema, type RequestFormSchema } from './NewRequestForm.utils';
+import { createOrderSchema, type CreateOrderFormSchema } from './NewRequestForm.utils';
 
 import { useDatasetRequest } from '@/context/DatasetRequestContext';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,45 +19,64 @@ import { CalendarIcon, Citrus, X } from 'lucide-react';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
+import { useCreateOrder } from '@/hooks/api/use-create-order';
 
 export default function NewRequestForm() {
   const { formData, updateFormData, features, removeFeature } = useDatasetRequest();
+  const createOrderMutation = useCreateOrder();
 
-  const form = useForm<RequestFormSchema>({
-    resolver: zodResolver(formRequestSchema),
-    defaultValues: formData
+  const form = useForm<CreateOrderFormSchema>({
+    resolver: zodResolver(createOrderSchema),
+    defaultValues: formData,
+    mode: 'onChange',
+  });
+
+  // FIXME: This useEffect casuing rerendering a lot of times which causes crashing app
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      updateFormData(value as Partial<CreateOrderFormSchema>);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form.watch]);
+
+
+
+  useForm<CreateOrderFormSchema>({
+    defaultValues: {
+      ...formData,
+      startDate: formData.startDate ?? new Date(),
+      endDate: formData.endDate ?? new Date(),
+    },
+    resolver: zodResolver(createOrderSchema)
   });
 
   useEffect(() => {
-    const subscription = form.watch((value) => {
-      updateFormData(value as Partial<RequestFormSchema>);
-    });
-    return () => subscription.unsubscribe();
-  }, [form, updateFormData]);
-
-  useEffect(() => {
-    Object.entries(formData).forEach(([key, value]) => {
-      if (value !== undefined) {
-        form.setValue(key as keyof RequestFormSchema, value);
+    (
+      Object.entries(formData) as [keyof CreateOrderFormSchema, CreateOrderFormSchema[keyof CreateOrderFormSchema]][]
+    ).forEach(([key, value]) => {
+      if (value != null) {
+        form.setValue(key, value);
       }
     });
-  }, []);
+  }, [formData]);
 
-  const onSubmit = (data: RequestFormSchema) => {
-    console.log(data);
-    console.log(features);
+
+  const onSubmit = (data: CreateOrderFormSchema) => {
+    // @ts-ignore
+    createOrderMutation.mutate(data);
   };
 
   return (
     <div className="space-y-3 p-4">
-      <h1 className="text-2xl">Create dataset request</h1>
-      <p className="text-sm">Description of add request section</p>
+      <h1 className="text-2xl">Create dataset order</h1>
+      <p className="text-sm">Description of add order section</p>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <Card className="p-0">
             <CardContent className="space-y-2.5 p-3 text-xs">
-              <h1 className="mb-2.5 text-sm">Specify request details</h1>
+              <h1 className="mb-2.5 text-sm">Specify order details</h1>
               <FormField
                 control={form.control}
                 name="name"
@@ -68,10 +87,10 @@ export default function NewRequestForm() {
                         {/* TODO */}
                         <Citrus size={16} />
                       </IconTooltip>
-                      Request name
+                      Order name
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter request name..." {...field} className="text-xs placeholder:text-xs" />
+                      <Input placeholder="Enter order name..." {...field} className="text-xs placeholder:text-xs" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -86,7 +105,7 @@ export default function NewRequestForm() {
                       <IconTooltip text="Dummy text">
                         <Citrus size={16} />
                       </IconTooltip>
-                      Request start date
+                      Order start date
                     </FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
@@ -110,7 +129,9 @@ export default function NewRequestForm() {
                           onSelect={field.onChange}
                           disabled={(date) => {
                             const yesterday = new Date();
+
                             yesterday.setDate(yesterday.getDate() - 1);
+
                             return date <= yesterday;
                           }}
                           initialFocus
@@ -123,14 +144,14 @@ export default function NewRequestForm() {
               />
               <FormField
                 control={form.control}
-                name="dueDate"
+                name="endDate"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>
                       <IconTooltip text="Dummy text">
                         <Citrus size={16} />
                       </IconTooltip>
-                      Request end date
+                      Order end date
                     </FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
@@ -170,7 +191,7 @@ export default function NewRequestForm() {
                       <IconTooltip text="Dummy text">
                         <Citrus size={16} />
                       </IconTooltip>
-                      Request budget
+                      Order budget
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -178,6 +199,7 @@ export default function NewRequestForm() {
                         {...field}
                         type="number"
                         className="text-xs placeholder:text-xs"
+                        value={field.value}
                       />
                     </FormControl>
                     <FormMessage />
@@ -186,7 +208,7 @@ export default function NewRequestForm() {
               />
               <FormField
                 control={form.control}
-                name="language"
+                name="labelingLanguage"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -195,15 +217,15 @@ export default function NewRequestForm() {
                       </IconTooltip>
                       Choose labeling language
                     </FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value ?? ''}>
                       <FormControl className="w-full">
                         <SelectTrigger>
                           <SelectValue placeholder="English" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="English">English</SelectItem>
-                        <SelectItem value="Polish">Polish</SelectItem>
+                        <SelectItem value="polish">Polish</SelectItem>
+                        <SelectItem value="english">English</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -218,7 +240,7 @@ export default function NewRequestForm() {
               <h1 className="mb-2.5 text-sm">Specify dataset details</h1>
               <FormField
                 control={form.control}
-                name="datasetDesc"
+                name="datasetDescription"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -241,7 +263,7 @@ export default function NewRequestForm() {
               />
               <FormField
                 control={form.control}
-                name="totalSamples"
+                name="minSamplesCount"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -249,7 +271,7 @@ export default function NewRequestForm() {
                         {/* TODO */}
                         <Citrus size={16} />
                       </IconTooltip>
-                      Minimal dataset samples
+                      Minimal dataset samples count
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -293,7 +315,7 @@ export default function NewRequestForm() {
               />
               <FormField // TODO ADD IMAGE UPLOAD
                 control={form.control}
-                name="name"
+                name="exampleImageUrl"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -353,6 +375,9 @@ export default function NewRequestForm() {
               )}
             </CardContent>
           </Card>
+          <Button variant="default" size="sm" className="text-sm" type="submit">
+            {form.formState.isSubmitting ? 'Sending...' : 'Submit'}
+          </Button>
         </form>
       </Form>
     </div>

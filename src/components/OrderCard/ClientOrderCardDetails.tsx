@@ -68,7 +68,7 @@ export default function ({ requestId }: { requestId: string }): React.ReactNode 
     {
       icon: Citrus,
       label: 'Label language: ',
-      value: data.language ?? 'English'
+      value: data.labelingLanguage ?? 'English'
     }
   ];
 
@@ -77,10 +77,10 @@ export default function ({ requestId }: { requestId: string }): React.ReactNode 
       <h1 className="text-2xl">{data.name}</h1>
       <DetailsHeader
         datasetName={data.name}
-        requestDescrption={data.dataset.description}
+        requestDescrption={data.datasetDescription}
         progressCircleData={{
-          samplesCurrent: data.samplesCurrent,
-          samplesTotal: data.samplesCount
+          samplesCurrent: data.currentSamplesCount,
+          samplesTotal: data.minSamplesCount
         }}
         requestHeaderData={REQUEST_HEADER_DATA}
       />
@@ -88,10 +88,7 @@ export default function ({ requestId }: { requestId: string }): React.ReactNode 
       <Card className="p-6">
         <CardContent className="flex flex-col gap-3 p-0">
           <h2 className="font-medium">Example task solution</h2>
-          <ExampleImageCarousel
-            features={data?.dataset.features ?? []}
-            image="https://picsum.photos/300/200?random=1"
-          />
+          <ExampleImageCarousel features={data?.features ?? []} image="https://picsum.photos/300/200?random=1" />
         </CardContent>
       </Card>
       <Button className="fixed bottom-3 left-1/2 w-[80%] -translate-x-1/2">Join</Button>

@@ -1,31 +1,32 @@
-import { IconTooltip } from "@/components/IconTooltip";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { mockedRequests, mockedTasks } from "@/lib/mock";
-import { format } from "date-fns";
-import { Citrus } from "lucide-react";
-import Link from "next/link";
+'use client';
+
+import { IconTooltip } from '@/components/IconTooltip';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { format } from 'date-fns';
+import { Citrus } from 'lucide-react';
+import Link from 'next/link';
+import { useTasks } from '@/hooks/api/use-tasks';
 
 export default function Tasks() {
-  const tasks = mockedTasks;
-  const requestsMap = mockedRequests.reduce(
-    (acc, request) => {
-      acc[request.id] = request;
-      return acc;
-    },
-    {} as Record<string, (typeof mockedRequests)[0]>,
-  );
+  const { data, isLoading, error } = useTasks();
+
+  if (error || !data) {
+    return <div>Could not load tasks</div>;
+  }
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
 
   return (
     <div className="space-y-3 p-4">
-      {tasks.map((task) => (
+      {data.map((task) => (
         <Link key={task.id} href={`/my-tasks/${task.id}`} className="block">
           <Card className="py-3">
             <CardContent className="flex px-3 text-xs">
               <div className="flex flex-col gap-2">
-                <h2 className="text-base font-medium">
-                  {requestsMap[task.requestId]?.name}
-                </h2>
+                <h2 className="text-base font-medium">{task.id}</h2>
                 <div className="flex items-center gap-2">
                   <IconTooltip text="Dummy text">
                     <Citrus size={16} />
@@ -36,18 +37,13 @@ export default function Tasks() {
                   <IconTooltip text="Dummy text">
                     <Citrus size={16} />
                   </IconTooltip>
-                  Deadline: {format(task.deadline, "P")}
+                  Deadline: {format(task.endDate, 'P')}
                 </div>
                 <div className="flex items-center gap-2">
                   <IconTooltip text="Dummy text">
                     <Citrus size={16} />
                   </IconTooltip>
-                  Estimated Reward: ~
-                  {(
-                    requestsMap[task.requestId].budget /
-                    requestsMap[task.requestId].contributors /
-                    20
-                  ).toPrecision(2)}{" "}
+                  Estimated Reward: ~{task.estimatedReward}
                   SOL
                 </div>
               </div>

@@ -9,56 +9,85 @@ export type OrderStatus = (typeof OrderStatuses)[keyof typeof OrderStatuses];
 
 type FeatureType = 'Description' | 'something';
 
-interface FeatureExample {
+export interface Feature {
   id: string;
-  imageUrl: string;
-  label: string;
-  featureId: string;
-}
-
-interface Feature {
-  id: string;
+  orderId: string;
   name: string;
-  description: string;
-  imageGuidelines: string;
   labelGuidelines: string;
-  type: FeatureType;
-  datasetId: string;
-  examples: FeatureExample[];
+  exampleLabel?: string;
 }
 
-interface Dataset {
+export interface Feature {
   id: string;
+  orderId: string;
   name: string;
-  description: string;
-  minSamplesCount: number;
-  samplesCount: number;
-  samplesCurrent: number;
-  features: Feature[];
+  labelGuidelines: string;
+  exampleLabel?: string;
 }
 
-export type Order = {
+export interface Order {
   id: string;
   name: string;
-  dataset: Dataset;
-  status: OrderStatus;
-  startDate: Date;
-  endDate: Date;
-  samplesCurrent: number;
-  samplesCount: number;
+  startDate: string;
+  endDate: string;
+  status: 'active' | 'pending' | 'completed' | 'expired';
   budget: number;
-  language: string;
-  entryFee: number;
-  minContributors: number;
-  contributors: number;
-  reward: number;
-};
+  labelingLanguage: 'polish' | 'english';
+  datasetDescription: string;
+  exampleImageUrl: string;
+  imageGuidelines: string;
+  minSamplesCount: number;
+  currentSamplesCount: number;
+  entryFee?: number;
+  reward?: number;
+  minContributors?: number;
+  contributors?: number;
+  features?: Feature[];
+}
 
-type TaskType = 'taking picture' | 'labeling' | 'cross check';
+export type TaskType = 'labeling' | 'cross_checking' | 'taking_picture';
 
-export type Task = {
+export interface Task {
   id: string;
   type: TaskType;
-  deadline: Date;
-  requestId: string;
-};
+  endDate: string;
+  estimatedReward: number;
+  assignedToId?: string;
+  orderId: string;
+  labelTask?: LabelTask;
+  checkTask?: CheckTask;
+  pictureTask?: PictureTask;
+}
+
+export interface LabelTask {
+  id: string;
+  taskId: string;
+  featureLabels: FeatureLabel[];
+}
+
+export interface FeatureLabel {
+  id: string;
+  labelTaskId: string;
+  featureId: string;
+  featureLabel: string;
+}
+
+export interface CheckTask {
+  id: string;
+  taskId: string;
+  isCorrect?: boolean;
+  checkFeatures: CheckFeature[];
+}
+
+export interface CheckFeature {
+  id: string;
+  checkTaskId: string;
+  name: string;
+  label: string;
+}
+
+export interface PictureTask {
+  id: string;
+  taskId: string;
+  exampleImgUrl?: string;
+}

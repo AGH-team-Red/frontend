@@ -10,7 +10,7 @@ import { createClientDetails } from './client-details';
 import { createUserDetails } from './user-details';
 
 const OrderCard = ({ order, userType, onClickRoute }: RequestedCardProps): React.ReactNode => {
-  const { samplesCurrent, samplesCount, name, id, reward, status } = order;
+  const { currentSamplesCount, minSamplesCount, name, id, reward, status } = order;
 
   const isUser = userType === 'user';
 
@@ -37,7 +37,7 @@ const OrderCard = ({ order, userType, onClickRoute }: RequestedCardProps): React
       <Card className="py-3">
         <CardContent className="flex gap-4 px-3">
           <div className="flex items-center">
-            <ProgressCircle current={samplesCurrent} total={samplesCount} />
+            <ProgressCircle current={currentSamplesCount} total={minSamplesCount} />
           </div>
           {renderDetails(isUser ? userDetails : clientDetails)}
           <div className="flex flex-col justify-between">

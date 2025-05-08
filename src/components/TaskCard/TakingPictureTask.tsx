@@ -1,14 +1,18 @@
-import { IconTooltip } from "@/components/IconTooltip";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Citrus } from "lucide-react";
-import Image from "next/image";
+import { IconTooltip } from '@/components/IconTooltip';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Citrus } from 'lucide-react';
+import Image from 'next/image';
+import { PictureTask } from '@/lib/types';
 
-export default function TakingPictureTask({
-  imageGuidelines,
-}: {
-  imageGuidelines: string;
-}) {
+export default function TakingPictureTask({ pictureTask }: { pictureTask?: PictureTask }): React.ReactElement {
+  // TODO: Rethink typing props
+  if (!pictureTask) {
+    return <div>Could not load picture task</div>;
+  }
+
+  const { exampleImgUrl } = pictureTask;
+
   return (
     <>
       <Card className="py-3">
@@ -16,7 +20,7 @@ export default function TakingPictureTask({
           <h2>Example image</h2>
           <div className="relative aspect-[16/9] w-full">
             <Image
-              src={"https://picsum.photos/350/160"}
+              src={exampleImgUrl || ''}
               className="rounded-md object-cover"
               fill
               sizes="(max-width: 768px) 100vw, 700px"
@@ -27,7 +31,7 @@ export default function TakingPictureTask({
             <IconTooltip text="Dummy text">
               <Citrus size={16} />
             </IconTooltip>
-            Image guidelines: {imageGuidelines}
+            Image guidelines: {'TODO'}
           </div>
         </CardContent>
       </Card>
