@@ -20,10 +20,10 @@ export const featureSchema = z.object({
 export const createOrderSchema = z
   .object({
     name: z.string().min(1, 'Order name is required'),
-    startDate: z.date(), // or z.coerce.date() if your form gives you an ISO string
-    endDate: z.date(),
+    startDate: z.coerce.date(),
+    endDate: z.coerce.date(),
     budget: z.coerce.number().min(1, 'Budget must be at least 1'),
-    labelingLanguage: z.enum(['polish', 'english']),
+    labelingLanguage: z.enum(['pl', 'en']),
     datasetDescription: z.string().min(1, 'Dataset description is required'),
     minSamplesCount: z.coerce.number().min(1, 'Minimal dataset samples are required'),
     imageGuidelines: z.string().min(1, 'Image guidelines are required'),

@@ -57,7 +57,17 @@ export default function NewRequestForm() {
 
   const onSubmit = (data: CreateOrderFormSchema) => {
     console.log('Form data:', data);
-    createOrderMutation.mutate(data);
+    // @ts-ignore
+    createOrderMutation.mutate({
+      ...data,
+      id: crypto.randomUUID(),
+      status: 'pending',
+      currentSamplesCount: 0,
+      features: {
+        // @ts-ignore
+        create: data.features
+      }
+    });
   };
 
   return (
@@ -217,8 +227,8 @@ export default function NewRequestForm() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="polish">Polish</SelectItem>
-                        <SelectItem value="english">English</SelectItem>
+                        <SelectItem value="pl">Polish</SelectItem>
+                        <SelectItem value="en">English</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
