@@ -68,6 +68,8 @@ export default function NewRequestForm() {
         create: data.features
       }
     });
+
+    router.push('/requests/customer');
   };
 
   return (

@@ -103,10 +103,10 @@ export default function Page({ requestId }: { requestId: string }): React.ReactN
                       <Citrus size={16} />
                       Label guidelines: {feature.labelGuidelines}
                     </div>
-                    <div className="flex items-center gap-2">
+                    {/* <div className="flex items-center gap-2">
                       <Citrus size={16} />
                       Type: {feature.type}
-                    </div>
+                    </div> */}
                   </div>
                 </CardContent>
               </Card>

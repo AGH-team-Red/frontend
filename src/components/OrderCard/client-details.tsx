@@ -3,14 +3,14 @@ import { Citrus } from 'lucide-react';
 
 const createClientDetails = (clientDetails: ClientDetails): TCardDetails[] => {
   const {
-    order: { samplesCurrent, samplesCount, endDate }
+    order: { currentSamplesCount, minSamplesCount, endDate }
   } = clientDetails;
 
   return [
     {
       icon: <Citrus size={16} />,
       label: 'Samples collected: ',
-      values: `${samplesCurrent}/${samplesCount}`
+      values: `${currentSamplesCount}/${minSamplesCount}`
     },
     {
       icon: <Citrus size={16} />,
