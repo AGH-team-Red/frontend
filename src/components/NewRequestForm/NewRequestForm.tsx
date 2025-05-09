@@ -13,57 +13,50 @@ import { IconTooltip } from '../IconTooltip';
 import { createOrderSchema, type CreateOrderFormSchema } from './NewRequestForm.utils';
 
 import { useDatasetRequest } from '@/context/DatasetRequestContext';
+import { useCreateOrder } from '@/hooks/api/use-create-order';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { CalendarIcon, Citrus, X } from 'lucide-react';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import Link from 'next/link';
-import { useCreateOrder } from '@/hooks/api/use-create-order';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 
 export default function NewRequestForm() {
+  const router = useRouter();
   const { formData, updateFormData, features, removeFeature } = useDatasetRequest();
   const createOrderMutation = useCreateOrder();
+  const formInitialized = useRef(false);
 
   const form = useForm<CreateOrderFormSchema>({
     resolver: zodResolver(createOrderSchema),
-    defaultValues: formData,
-    mode: 'onChange',
-  });
-
-  // FIXME: This useEffect casuing rerendering a lot of times which causes crashing app
-  useEffect(() => {
-    const subscription = form.watch((value) => {
-      updateFormData(value as Partial<CreateOrderFormSchema>);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [form.watch]);
-
-
-
-  useForm<CreateOrderFormSchema>({
     defaultValues: {
       ...formData,
-      startDate: formData.startDate ?? new Date(),
-      endDate: formData.endDate ?? new Date(),
+      features: features
     },
-    resolver: zodResolver(createOrderSchema)
+    mode: 'onChange'
   });
 
   useEffect(() => {
-    (
-      Object.entries(formData) as [keyof CreateOrderFormSchema, CreateOrderFormSchema[keyof CreateOrderFormSchema]][]
-    ).forEach(([key, value]) => {
-      if (value != null) {
-        form.setValue(key, value);
-      }
-    });
-  }, [formData]);
+    if (!formInitialized.current && formData) {
+      form.reset(formData);
+      formInitialized.current = true;
+    }
+  }, [form, formData]);
 
+  useEffect(() => {
+    if (formInitialized.current) {
+      form.setValue('features', features);
+    }
+  }, [features]);
+
+  const handleAddFeatureClick = () => {
+    updateFormData(form.getValues());
+    router.push('/requests/create-feature');
+  };
 
   const onSubmit = (data: CreateOrderFormSchema) => {
-    // @ts-ignore
+    console.log('Form data:', data);
     createOrderMutation.mutate(data);
   };
 
@@ -199,7 +192,7 @@ export default function NewRequestForm() {
                         {...field}
                         type="number"
                         className="text-xs placeholder:text-xs"
-                        value={field.value}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -279,6 +272,7 @@ export default function NewRequestForm() {
                         type="number"
                         placeholder="Enter samples number..."
                         {...field}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage />
@@ -343,7 +337,14 @@ export default function NewRequestForm() {
             <CardContent className="space-y-2.5 p-3 text-xs">
               <div className="mb-2.5 flex items-center justify-between">
                 <h1 className="text-sm">Build dataset structure</h1>
-                <Link passHref href="/requests/create-feature">
+                <Link
+                  passHref
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleAddFeatureClick();
+                  }}
+                >
                   <Button type="button" size="sm" className="text-xs">
                     Add feature
                   </Button>
@@ -358,14 +359,14 @@ export default function NewRequestForm() {
                 <p className="text-muted-foreground">No features added yet.</p>
               ) : (
                 <div className="space-y-2">
-                  {features.map((feature) => (
-                    <Card key={feature.id} className="p-3">
+                  {features.map((feature, id) => (
+                    <Card key={id} className="p-3">
                       <div className="flex justify-between">
                         <div>
                           <p className="font-medium">Feature name: {feature.name}</p>
                           <p className="text-muted-foreground">Label guidelines: {feature.labelGuidelines}</p>
                         </div>
-                        <Button variant="ghost" size="sm" onClick={() => removeFeature(feature.id)}>
+                        <Button variant="ghost" size="sm" onClick={() => removeFeature(feature.name)}>
                           <X className="h-4 w-4" />
                         </Button>
                       </div>

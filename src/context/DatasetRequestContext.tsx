@@ -4,11 +4,13 @@ import { type CreateOrderFormSchema } from '@/components/NewRequestForm/NewReque
 import type { Feature } from '@/lib/types';
 import { createContext, useContext, useMemo, useState } from 'react';
 
+export type NewFeature = Omit<Feature, 'orderId' | 'id'>;
+
 type DatasetRequestContextType = {
   formData: Partial<CreateOrderFormSchema>;
   updateFormData: (data: Partial<CreateOrderFormSchema>) => void;
-  features: Feature[];
-  addFeature: (feature: Feature) => void;
+  features: NewFeature[];
+  addFeature: (feature: NewFeature) => void;
   removeFeature: (id: string) => void;
   resetState: () => void;
 };
@@ -16,19 +18,29 @@ type DatasetRequestContextType = {
 const DatasetRequestContext = createContext<DatasetRequestContextType | undefined>(undefined);
 
 export function DatasetRequestProvider({ children }: { children: React.ReactNode }) {
-  const [formData, setFormData] = useState<Partial<CreateOrderFormSchema>>({});
-  const [features, setFeatures] = useState<Feature[]>([]);
+  const [formData, setFormData] = useState<Partial<CreateOrderFormSchema>>({
+    name: '',
+    startDate: undefined,
+    endDate: undefined,
+    budget: undefined,
+    labelingLanguage: undefined,
+    datasetDescription: '',
+    minSamplesCount: undefined,
+    imageGuidelines: '',
+    exampleImageUrl: ''
+  });
+  const [features, setFeatures] = useState<NewFeature[]>([]);
 
   const updateFormData = (data: Partial<CreateOrderFormSchema>) => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
 
-  const addFeature = (feature: Feature) => {
-    setFeatures((prev) => [...prev, { ...feature, id: crypto.randomUUID()}]);
+  const addFeature = (feature: NewFeature) => {
+    setFeatures((prev) => [...prev, feature]);
   };
 
-  const removeFeature = (id: string) => {
-    setFeatures((prev) => prev.filter((f) => f.id !== id));
+  const removeFeature = (name: string) => {
+    setFeatures((prev) => prev.filter((f) => f.name !== name));
   };
 
   const resetState = () => {
@@ -36,22 +48,19 @@ export function DatasetRequestProvider({ children }: { children: React.ReactNode
     setFeatures([]);
   };
 
-  const value = useMemo(() => ({
-    formData,
-    updateFormData,
-    features,
-    addFeature,
-    removeFeature,
-    resetState,
-  }), [formData, features, updateFormData, addFeature, removeFeature, resetState]);
-
-  return (
-    <DatasetRequestContext.Provider
-      value={value}
-    >
-      {children}
-    </DatasetRequestContext.Provider>
+  const value = useMemo(
+    () => ({
+      formData,
+      updateFormData,
+      features,
+      addFeature,
+      removeFeature,
+      resetState
+    }),
+    [formData, features, updateFormData, addFeature, removeFeature, resetState]
   );
+
+  return <DatasetRequestContext.Provider value={value}>{children}</DatasetRequestContext.Provider>;
 }
 
 export function useDatasetRequest() {

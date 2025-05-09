@@ -14,15 +14,6 @@ export interface Feature {
   orderId: string;
   name: string;
   labelGuidelines: string;
-  exampleLabel?: string;
-}
-
-export interface Feature {
-  id: string;
-  orderId: string;
-  name: string;
-  labelGuidelines: string;
-  exampleLabel?: string;
 }
 
 export interface Order {
@@ -30,7 +21,7 @@ export interface Order {
   name: string;
   startDate: string;
   endDate: string;
-  status: 'active' | 'pending' | 'completed' | 'expired';
+  status: keyof typeof OrderStatuses;
   budget: number;
   labelingLanguage: 'polish' | 'english';
   datasetDescription: string;

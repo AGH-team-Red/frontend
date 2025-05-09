@@ -1,13 +1,14 @@
 'use client';
+
 import OrderCard from '@/components/OrderCard/OrderCard';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useOrders } from '@/hooks/api/use-orders';
 import type { OrderStatus } from '@/lib/types';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useOrders } from '@/hooks/api/use-orders';
 
-type RequestStatusFilter = OrderStatus | 'All';
+type RequestStatusFilter = 'All' | OrderStatus;
 
 const FILTER_OPTIONS: RequestStatusFilter[] = ['All', 'Active', 'Pending', 'Completed', 'Expired'];
 
@@ -22,6 +23,13 @@ export default function Requests() {
   if (orders.error || !orders.data) {
     return <div>Error</div>;
   }
+
+  const filteredOrders =
+    activeFilter === 'All'
+      ? orders.data
+      : orders.data.filter((order) => {
+          return order.status.toLowerCase() === activeFilter.toLowerCase();
+        });
 
   return (
     <div className="space-y-4 p-4">
@@ -42,7 +50,7 @@ export default function Requests() {
         ))}
       </div>
 
-      {orders.data.map((order) => (
+      {filteredOrders.map((order) => (
         <OrderCard key={order.name} userType="client" order={order} onClickRoute="requests/customer" />
       ))}
     </div>
