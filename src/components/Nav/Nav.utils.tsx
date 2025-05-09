@@ -3,15 +3,15 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "../ui/breadcrumb";
+  BreadcrumbSeparator
+} from '../ui/breadcrumb';
 
-import { mockedRequests } from "@/lib/mock";
+import { mockedRequests } from '@/lib/mock';
 
 const MAX_VISIBLE_SEGMENTS = 3;
 
 export const generateBreadcrumbs = ({ pathname }: { pathname: string }) => {
-  const segments = pathname.split("/").filter(Boolean);
+  const segments = pathname.split('/').filter(Boolean);
   const shouldUseEllipsis = segments.length > MAX_VISIBLE_SEGMENTS;
 
   const breadcrumbItems: React.ReactNode[] = [];
@@ -19,7 +19,7 @@ export const generateBreadcrumbs = ({ pathname }: { pathname: string }) => {
   breadcrumbItems.push(
     <BreadcrumbItem key="home">
       <BreadcrumbLink href="/">Menu</BreadcrumbLink>
-    </BreadcrumbItem>,
+    </BreadcrumbItem>
   );
 
   if (segments.length > 0) {
@@ -28,21 +28,17 @@ export const generateBreadcrumbs = ({ pathname }: { pathname: string }) => {
 
   if (shouldUseEllipsis) {
     const firstSegment = segments[0];
-    let firstDisplayText = firstSegment
-      .replace(/-/g, " ")
-      .replace(/\b\w/g, (char) => char.toUpperCase());
+    let firstDisplayText = firstSegment.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
 
     breadcrumbItems.push(
       <BreadcrumbItem key={`/${firstSegment}`}>
-        <BreadcrumbLink href={`/${firstSegment}`}>
-          {firstDisplayText}
-        </BreadcrumbLink>
+        <BreadcrumbLink href={`/${firstSegment}`}>{firstDisplayText}</BreadcrumbLink>
       </BreadcrumbItem>,
       <BreadcrumbSeparator key="sep-first" />,
       <BreadcrumbItem key="ellipsis">
         <BreadcrumbEllipsis />
       </BreadcrumbItem>,
-      <BreadcrumbSeparator key="sep-ellipsis" />,
+      <BreadcrumbSeparator key="sep-ellipsis" />
     );
 
     segments.slice(-2).forEach((segment, idx, arr) => {
@@ -51,18 +47,18 @@ export const generateBreadcrumbs = ({ pathname }: { pathname: string }) => {
         idx: segments.length - arr.length + idx,
         segments,
         breadcrumbItems,
-        accumulatedPath: "",
+        accumulatedPath: ''
       });
     });
   } else {
-    let path = "";
+    let path = '';
     segments.forEach((segment, idx) => {
       processSegment({
         segment,
         idx,
         segments,
         breadcrumbItems,
-        accumulatedPath: path,
+        accumulatedPath: path
       });
       path += `/${segment}`;
     });
@@ -76,7 +72,7 @@ const processSegment = ({
   idx,
   segments,
   breadcrumbItems,
-  accumulatedPath = "",
+  accumulatedPath = ''
 }: {
   segment: string;
   idx: number;
@@ -88,17 +84,14 @@ const processSegment = ({
 
   let displayText = segment;
 
-  if (segment === "user" || segment === "customer" || segment === "requests") {
-    displayText = "Requests";
-  } else if (segments[0] === "requests") {
-    if (segment === "create-request") {
-      displayText = "Create Request";
-    } else if (segment === "create-feature") {
-      displayText = "Create Feature";
-    } else if (
-      idx === 1 &&
-      !["create-request", "create-feature"].includes(segment)
-    ) {
+  if (segment === 'user' || segment === 'customer' || segment === 'requests') {
+    displayText = 'Requests';
+  } else if (segments[0] === 'requests') {
+    if (segment === 'create-request') {
+      displayText = 'Create Request';
+    } else if (segment === 'create-feature') {
+      displayText = 'Create Feature';
+    } else if (idx === 1 && !['create-request', 'create-feature'].includes(segment)) {
       const requestId = segment;
       const request = mockedRequests.find((req) => req.id === requestId);
       if (request) {
@@ -106,9 +99,7 @@ const processSegment = ({
       }
     }
   } else {
-    displayText = segment
-      .replace(/-/g, " ")
-      .replace(/\b\w/g, (char) => char.toUpperCase());
+    displayText = segment.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
   }
 
   breadcrumbItems.push(
@@ -118,7 +109,7 @@ const processSegment = ({
       ) : (
         <BreadcrumbLink href={path}>{displayText}</BreadcrumbLink>
       )}
-    </BreadcrumbItem>,
+    </BreadcrumbItem>
   );
 
   if (idx < segments.length - 1) {

@@ -1,4 +1,4 @@
-import NewRequestForm from "@/components/NewRequestForm/NewRequestForm";
+import NewRequestForm from '@/components/NewRequestForm/NewRequestForm';
 
 export default function CreateRequest() {
   return <NewRequestForm />;

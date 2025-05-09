@@ -1,5 +1,5 @@
-import ProgressCircle from "@/components/ProgressCircle";
-import { Card, CardContent } from "@/components/ui/card";
+import ProgressCircle from '@/components/ProgressCircle';
+import { Card, CardContent } from '@/components/ui/card';
 
 type TRequestHeaderData = {
   label: string;
@@ -22,17 +22,14 @@ const DetailsHeader = ({
   datasetName,
   requestDescrption,
   progressCircleData,
-  requestHeaderData,
+  requestHeaderData
 }: TDetailsHeaderProps) => {
   return (
     <Card className="p-6">
       <CardContent className="flex flex-col gap-3 p-0">
         <div className="flex gap-2">
           <div className="flex items-center pr-4">
-            <ProgressCircle
-              current={progressCircleData.samplesCurrent}
-              total={progressCircleData.samplesTotal}
-            />
+            <ProgressCircle current={progressCircleData.samplesCurrent} total={progressCircleData.samplesTotal} />
           </div>
           <div className="flex flex-1 flex-col space-y-2">
             <h2 className="text-md font-medium">{datasetName}</h2>
