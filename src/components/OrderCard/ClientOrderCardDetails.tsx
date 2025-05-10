@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { Citrus } from 'lucide-react';
+import { Citrus, Languages } from 'lucide-react';
 import DetailsCard from '@/components/DetailsCard';
 import DetailsHeader from '@/components/DetailsHeader';
 import { Button } from '@/components/ui/button';
@@ -66,7 +66,7 @@ export default function ({ requestId }: { requestId: string }): React.ReactNode 
       value: '20'
     },
     {
-      icon: Citrus,
+      icon: Languages,
       label: 'Label language: ',
       value: data.labelingLanguage ?? 'English'
     }

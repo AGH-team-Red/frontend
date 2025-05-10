@@ -14,7 +14,7 @@ const createClientDetails = (clientDetails: ClientDetails): TCardDetails[] => {
     },
     {
       icon: <Citrus size={16} />,
-      label: 'Active until:',
+      label: 'Active until: ',
       values: new Date(`${endDate}`).toLocaleDateString('en-GB')
     }
   ];
