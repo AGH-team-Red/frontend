@@ -17,7 +17,7 @@ const SingleTaskCard = ({ taskId }: { taskId: string }): React.ReactNode => {
   }
 
   return (
-    <div className="space-y-3 p-4">
+    <div className="mx-auto max-w-6xl space-y-3 p-4">
       <h1 className="text-2xl">{data.orderId}</h1>
       <p className="text-xs">{'TODO datasetDescription'}</p>
       {data.type === 'taking_picture' ? (

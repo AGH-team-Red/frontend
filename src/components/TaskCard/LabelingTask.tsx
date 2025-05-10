@@ -5,12 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { LabelTask } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Citrus } from 'lucide-react';
+import { HelpCircle, Info } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { LabelTask } from '@/lib/types';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 
 const formSchema = z.object({
   label: z.string().min(1, {
@@ -18,21 +20,59 @@ const formSchema = z.object({
   })
 });
 
+type LabelResponse = Record<string, string>;
+
 export default function LabelingTask({ labelTask }: { labelTask?: LabelTask }) {
   // TODO: Rethink typing props
   if (!labelTask) {
     return <div>Could not load label task</div>;
   }
 
+  const [step, setStep] = useState(0);
+  const totalSteps = labelTask.featureLabels.length;
+
+  const [labels, setLabels] = useState<LabelResponse>(() =>
+    Object.fromEntries(labelTask.featureLabels.map((featureLabel) => [featureLabel.id, '']))
+  );
+  const currentFeature = labelTask.featureLabels[step];
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      label: ''
+      label: labels[currentFeature.id] || ''
     }
   });
 
+  const handleBack = () => {
+    if (step > 0) {
+      setLabels((prev) => ({
+        ...prev,
+        [currentFeature.id]: form.getValues().label
+      }));
+
+      setStep((prev) => prev - 1);
+
+      const prevStep = step - 1;
+      setTimeout(() => form.setValue('label', labels[labelTask.featureLabels[prevStep].id] || ''));
+    }
+  };
+
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    setLabels((prev) => ({
+      ...prev,
+      [currentFeature.id]: data.label
+    }));
+
+    setStep((prev) => {
+      if (prev + 1 >= totalSteps) {
+        console.log('All labels', labels, currentFeature.id, data.label);
+        return prev;
+      }
+
+      const nextStep = prev + 1;
+      setTimeout(() => form.setValue('label', labels[labelTask.featureLabels[nextStep].id] || ''));
+      return nextStep;
+    });
   };
 
   return (
@@ -47,26 +87,31 @@ export default function LabelingTask({ labelTask }: { labelTask?: LabelTask }) {
         />
       </div>
 
-      {labelTask.featureLabels.map((featureLabel) => {
-        return (
-          <Card className="py-3">
-            <CardContent className="flex flex-col space-y-2 px-3 text-xs">
-              <div className="flex justify-between">
-                <h2>Label</h2>
-                {featureLabel.featureLabel}
-                {/* TODO */}
+      <Card className="py-3">
+        <CardContent className="flex flex-col space-y-2 px-3 text-xs">
+          <div className="flex justify-between">
+            <h2>Label {currentFeature.featureLabel}</h2>
+
+            <Dialog>
+              <DialogTrigger asChild>
                 <Button className="h-6 px-1 py-0 text-xs">example label</Button>
-              </div>
-              <div className="flex items-center gap-2">
-                <IconTooltip text="Dummy text">
-                  <Citrus size={16} />
-                </IconTooltip>
-                Image guidelines: {'TODO add imageGuidelines'}
-              </div>
-            </CardContent>
-          </Card>
-        );
-      })}
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Example Label</DialogTitle>
+                </DialogHeader>
+                Some example label text
+              </DialogContent>
+            </Dialog>
+          </div>
+          <div className="flex items-center gap-2">
+            <IconTooltip text="Dummy text">
+              <Info size={16} />
+            </IconTooltip>
+            Image guidelines: {currentFeature.featureLabel}
+          </div>
+        </CardContent>
+      </Card>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -76,11 +121,10 @@ export default function LabelingTask({ labelTask }: { labelTask?: LabelTask }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  <IconTooltip text="Dummy text">
-                    {/* TODO */}
-                    <Citrus size={16} />
+                  <IconTooltip text={'Enter details about this feature'}>
+                    <HelpCircle size={16} />
                   </IconTooltip>
-                  Feature name
+                  {currentFeature.featureLabel}
                 </FormLabel>
                 <FormControl>
                   <Textarea
@@ -95,8 +139,10 @@ export default function LabelingTask({ labelTask }: { labelTask?: LabelTask }) {
           />
 
           <div className="flex items-center justify-between">
-            <Button>Go Back</Button>
-            <Button type="submit">Save and Continue</Button>
+            <Button variant="secondary" type="button" onClick={handleBack} disabled={step === 0}>
+              Back
+            </Button>
+            <Button type="submit">{step + 1 === totalSteps ? 'Submit' : 'Next'}</Button>
           </div>
         </form>
       </Form>
