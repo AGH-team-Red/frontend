@@ -1,9 +1,14 @@
+'use client';
+
 import { IconTooltip } from '@/components/IconTooltip';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { PictureTask } from '@/lib/types';
 import { Citrus } from 'lucide-react';
 import Image from 'next/image';
-import { PictureTask } from '@/lib/types';
+import { useState } from 'react';
+import ImageUploadDropzone from '../ImageUploadDropzone/ImageUploadDropzone';
+import type { ClientUploadedFileData } from 'uploadthing/types';
 
 export default function TakingPictureTask({ pictureTask }: { pictureTask?: PictureTask }): React.ReactElement {
   // TODO: Rethink typing props
@@ -11,7 +16,12 @@ export default function TakingPictureTask({ pictureTask }: { pictureTask?: Pictu
     return <div>Could not load picture task</div>;
   }
 
-  const { exampleImgUrl } = pictureTask;
+  const [isUploading, setIsUploading] = useState(false);
+  const [image, setImage] = useState<ClientUploadedFileData<{
+    uploadedBy: string;
+  }> | null>(null);
+
+  // const { exampleImgUrl } = pictureTask;
 
   return (
     <>
@@ -20,7 +30,7 @@ export default function TakingPictureTask({ pictureTask }: { pictureTask?: Pictu
           <h2>Example image</h2>
           <div className="relative aspect-[16/9] w-full">
             <Image
-              src={exampleImgUrl || ''}
+              src={'https://picsum.photos/350/160'} // TODO ADD REAL EXAMPLE IMAGE
               className="rounded-md object-cover"
               fill
               sizes="(max-width: 768px) 100vw, 700px"
@@ -41,10 +51,18 @@ export default function TakingPictureTask({ pictureTask }: { pictureTask?: Pictu
         </IconTooltip>
         Upload Image
       </div>
-      <div className="flex h-20 w-full items-center justify-center rounded-md bg-gray-600/20">
-        Placeholder for image uploader
-      </div>
-      <Button>Save Image</Button>
+      <ImageUploadDropzone
+        image={image}
+        setImage={setImage}
+        isUploading={isUploading}
+        setIsUploading={setIsUploading}
+      />
+      <Button
+        disabled={isUploading || !image?.ufsUrl || image?.ufsUrl === ''}
+        onClick={() => console.log('Image saved:', image?.ufsUrl)} // TODO: SEND IMAGE TO BACKEND
+      >
+        Save Image
+      </Button>
     </>
   );
 }
