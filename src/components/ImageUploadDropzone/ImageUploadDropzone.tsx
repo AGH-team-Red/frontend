@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { deleteUTFiles } from './deleteImageAction';
 import type { ClientUploadedFileData } from 'uploadthing/types';
+import { toast } from 'sonner';
 
 export default function ImageUploadDropzone({
   image,
@@ -28,6 +29,7 @@ export default function ImageUploadDropzone({
     if (!image) return;
 
     await deleteUTFiles([image.key]);
+    toast.error('Image deleted successfully!');
     setImage(null);
     setIsUploading(false);
   };
@@ -53,14 +55,20 @@ export default function ImageUploadDropzone({
       }}
       className="bg-foreground/10 ut-button:bg-foreground ut-button:text-background ut-allowed-content:text-foreground ut-label:text-foreground/50 hover:ut-label:text-foreground ut-uploading:ut-button:cursor-not-allowed ut-uploading:ut-button:bg-foreground/90"
       onUploadBegin={() => {
+        toast('Uploading image...', {
+          icon: '📸',
+          description: 'Please wait while we upload your image.',
+          duration: 5000
+        });
         setIsUploading(true);
       }}
       onClientUploadComplete={(res) => {
+        toast.success('Upload complete!');
         setImage(res[0]);
         setIsUploading(false);
       }}
       onUploadError={(error: Error) => {
-        console.error('Upload error:', error); // TODO MAYBE ADD TOAST
+        toast.error('Upload failed. Please try again.');
         setIsUploading(false);
       }}
     />

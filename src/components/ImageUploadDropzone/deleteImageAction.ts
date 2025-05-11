@@ -7,9 +7,7 @@ const utapi = new UTApi({
 
 export const deleteUTFiles = async (files: string[]) => {
   try {
-    console.log('UTAPI: Deleting files', files);
-    const res = await utapi.deleteFiles(files);
-    console.log('UTAPI: Files deleted successfully', res);
+    await utapi.deleteFiles(files);
   } catch (error) {
     console.error('UTAPI: Error deleting files', error);
   }

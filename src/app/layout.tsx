@@ -6,6 +6,7 @@ import { extractRouterConfig } from 'uploadthing/server';
 import './globals.css';
 import Providers from './providers';
 import NavWrapper from '@/components/Nav/NavWrapper';
+import { Toaster } from '@/components/ui/sonner';
 import { ourFileRouter } from './api/uploadthing/core';
 
 const geistSans = Geist({
@@ -33,7 +34,10 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <Providers>
-          <NavWrapper>{children}</NavWrapper>
+          <NavWrapper>
+            {children}
+            <Toaster />
+          </NavWrapper>
         </Providers>
       </body>
     </html>
