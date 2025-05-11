@@ -1,30 +1,12 @@
-'use client';
-
 import ExampleImageDialog from '@/components/ExampleImageDialog';
+import ProgressCircle from '@/components/ProgressCircle';
 import { Card, CardContent } from '@/components/ui/card';
-import { Citrus } from 'lucide-react';
-import DetailsHeader from '@/components/DetailsHeader';
-import { useOrder } from '@/hooks/api/use-order';
+import type { Order } from '@/lib/types';
+import { STATUS_DISPLAY } from '@/lib/utils';
+import { CircleDollarSign, Citrus, Languages } from 'lucide-react';
 
-const STATUS_DISPLAY: Record<string, string> = {
-  active: 'ACT',
-  pending: 'PEN',
-  completed: 'CMP',
-  expired: 'EXP'
-};
-
-export default function Page({ requestId }: { requestId: string }): React.ReactNode {
-  const { data, isLoading, error } = useOrder(requestId);
-
-  if (isLoading) {
-    return <div>Loading ...</div>;
-  }
-
-  if (error || !data) {
-    return <div>Request not found</div>;
-  }
-
-  const REQUEST_HEADER_DATA = [
+export default function MobileOrderView({ data }: { data: Order }) {
+  const requestHeaderData = [
     {
       label: 'Samples',
       value: `${data.currentSamplesCount ?? '0'}/${data.minSamplesCount ?? '0'}`
@@ -35,22 +17,36 @@ export default function Page({ requestId }: { requestId: string }): React.ReactN
     },
     {
       label: 'Status',
-      value: `${STATUS_DISPLAY[data.status ?? 0]}`
+      value: `${STATUS_DISPLAY[data.status]}`
     }
   ];
 
   return (
     <div className="space-y-3 p-4">
       <h1 className="text-2xl">{data.name}</h1>
-      <DetailsHeader
-        datasetName={data.name}
-        requestDescrption={data.datasetDescription}
-        progressCircleData={{
-          samplesCurrent: data.currentSamplesCount,
-          samplesTotal: data.minSamplesCount
-        }}
-        requestHeaderData={REQUEST_HEADER_DATA}
-      />
+      <Card className="p-6">
+        <CardContent className="flex flex-col gap-3 p-0">
+          <div className="flex gap-2">
+            <div className="flex items-center pr-4">
+              <ProgressCircle current={data.currentSamplesCount} total={data.minSamplesCount} />
+            </div>
+            <div className="flex flex-1 flex-col space-y-2">
+              <h2 className="text-md font-medium">{data.name}</h2>
+              <div className="flex gap-3">
+                {requestHeaderData.map((item) => (
+                  <div key={item.value} className="flex flex-col">
+                    <span className="text-xs">{item.label}</span>
+                    <span className="text-2xl">{item.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm">{data.datasetDescription}</p>
+          </div>
+        </CardContent>
+      </Card>
 
       <Card className="p-0">
         <CardContent className="space-y-2.5 p-3 text-xs">
@@ -62,11 +58,11 @@ export default function Page({ requestId }: { requestId: string }): React.ReactN
             {new Date(`${data.endDate}`).toLocaleDateString('en-GB')}
           </div>
           <div className="flex items-center gap-2">
-            <Citrus size={16} />
+            <CircleDollarSign size={16} />
             Budget {data.budget} SOL
           </div>
           <div className="flex items-center gap-2">
-            <Citrus size={16} />
+            <Languages size={16} />
             Label language: {data.labelingLanguage}
           </div>
         </CardContent>

@@ -1,13 +1,16 @@
+import { useIsMobile } from '@/hooks/use-mobile';
+
 export default function ProgressCircle({ current, total }: { current: number; total: number }) {
+  const isMobile = useIsMobile();
   const percentage = total === 0 ? 0 : Math.round((current / total) * 100);
-  const strokeWidth = 4;
-  const size = 40;
+  const strokeWidth = isMobile ? 4 : 8;
+  const size = isMobile ? 40 : 80;
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const dash = (percentage / 100) * circumference;
 
   return (
-    <div className="relative flex h-10 w-10 items-center justify-center">
+    <div className={`relative flex items-center justify-center ${isMobile ? 'h-10 w-10' : 'h-20 w-20'}`}>
       <svg width={size} height={size} className="rotate-[-90deg]">
         <circle
           cx={size / 2}

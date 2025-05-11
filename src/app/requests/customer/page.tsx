@@ -32,12 +32,12 @@ export default function Requests() {
         });
 
   return (
-    <div className="space-y-4 p-4">
+    <div className="mx-auto w-full max-w-7xl space-y-4 p-4">
       <Link href="/requests/create-request" className="block">
-        <Button>New order</Button>
+        <Button className="cursor-pointer">New order</Button>
       </Link>
 
-      <div className="bg-card flex justify-evenly border p-2">
+      <div className="bg-card mx-auto flex w-fit justify-evenly gap-4 rounded-md border p-4 py-2 md:mx-0">
         {FILTER_OPTIONS.map((filter) => (
           <Badge
             key={filter}
@@ -50,9 +50,11 @@ export default function Requests() {
         ))}
       </div>
 
-      {filteredOrders.map((order) => (
-        <OrderCard key={order.name} userType="client" order={order} onClickRoute="requests/customer" />
-      ))}
+      <div className="grid grid-cols-1 place-items-center gap-2 lg:grid-cols-2 2xl:grid-cols-3">
+        {filteredOrders.map((order) => (
+          <OrderCard key={order.id} userType="client" order={order} onClickRoute="requests/customer" />
+        ))}
+      </div>
     </div>
   );
 }
