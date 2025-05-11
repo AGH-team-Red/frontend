@@ -1,17 +1,28 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
-import { Citrus, Languages } from 'lucide-react';
 import DetailsCard from '@/components/DetailsCard';
 import DetailsHeader from '@/components/DetailsHeader';
-import { Button } from '@/components/ui/button';
-import { mockedRequests } from '@/lib/mock';
 import ExampleImageCarousel from '@/components/ExampleImageCarousel';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { useBreadcrumb } from '@/context/BreadcrumbContext';
 import { useOrder } from '@/hooks/api/use-order';
+import { Citrus, Languages } from 'lucide-react';
+import { useEffect } from 'react';
 
 export default function ({ requestId }: { requestId: string }): React.ReactNode {
-  const request = mockedRequests.find((request) => request.id === requestId);
+  const { setOrderName } = useBreadcrumb();
   const { data, error, isLoading } = useOrder(requestId);
+
+  useEffect(() => {
+    if (data?.name) {
+      setOrderName(data.name);
+    }
+
+    return () => {
+      setOrderName(null);
+    };
+  }, [data?.name, setOrderName]);
 
   if (isLoading) {
     return <div>Loading ...</div>;
@@ -31,7 +42,7 @@ export default function ({ requestId }: { requestId: string }): React.ReactNode 
       value: `~${data.reward} SOL`
     },
     {
-      label: 'Deadilne',
+      label: 'Deadline',
       value: new Date(`${data.endDate}`)
         ? new Intl.DateTimeFormat('en-GB', {
             day: '2-digit',
@@ -58,7 +69,7 @@ export default function ({ requestId }: { requestId: string }): React.ReactNode 
     {
       icon: Citrus,
       label: 'Contributors: ',
-      value: `${data.contributors ?? 0}/${request?.minContributors ?? 0}`
+      value: `${data.contributors ?? 0}/${data.minContributors ?? 0}`
     },
     {
       icon: Citrus,
