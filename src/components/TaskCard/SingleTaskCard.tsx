@@ -4,11 +4,13 @@ import { useTask } from '@/hooks/api/use-task';
 import TakingPictureTask from '@/components/TaskCard/TakingPictureTask';
 import LabelingTask from '@/components/TaskCard/LabelingTask';
 import CrossCheckTask from '@/components/TaskCard/CrossCheckTask';
+import { useOrder } from '@/hooks/api/use-order';
 
 const SingleTaskCard = ({ taskId }: { taskId: string }): React.ReactNode => {
-  const { data, isLoading, error } = useTask(taskId);
+  const { data: task, isLoading, error } = useTask(taskId);
+  const { data: order, isLoading: isOrderLoading, error: isOrderError } = useOrder(task?.orderId || '');
 
-  if (error || !data) {
+  if (error || !task) {
     return <div>Could not load task of if {taskId}</div>;
   }
 
@@ -16,16 +18,24 @@ const SingleTaskCard = ({ taskId }: { taskId: string }): React.ReactNode => {
     return <div>Loading ...</div>;
   }
 
+  if (isOrderError || !order) {
+    return <div>Could not load order of task {taskId}</div>;
+  }
+
+  if (isOrderLoading) {
+    return <div>Loading ...</div>;
+  }
+
   return (
     <div className="mx-auto max-w-6xl space-y-3 p-4">
-      <h1 className="text-2xl">{data.orderId}</h1>
-      <p className="text-xs">{'TODO datasetDescription'}</p>
-      {data.type === 'taking_picture' ? (
-        <TakingPictureTask pictureTask={data.pictureTask} />
-      ) : data.type === 'labeling' ? (
-        <LabelingTask labelTask={data.labelTask} />
+      <h1 className="text-2xl">{order.name}</h1>
+      <p className="text-xs">{order.datasetDescription}</p>
+      {task.type === 'taking_picture' ? (
+        <TakingPictureTask pictureTask={task.pictureTask} />
+      ) : task.type === 'labeling' ? (
+        <LabelingTask labelTask={task.labelTask} />
       ) : (
-        <CrossCheckTask checkTask={data.checkTask} />
+        <CrossCheckTask checkTask={task.checkTask} />
       )}
     </div>
   );

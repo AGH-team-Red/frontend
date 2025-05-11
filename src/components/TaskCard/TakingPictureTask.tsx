@@ -3,11 +3,12 @@
 import { IconTooltip } from '@/components/IconTooltip';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { PictureTask } from '@/lib/types';
 import { Citrus } from 'lucide-react';
 import Image from 'next/image';
-import { PictureTask } from '@/lib/types';
-import { UploadDropzone } from '@/lib/uploadthing';
 import { useState } from 'react';
+import ImageUploadDropzone from '../ImageUploadDropzone/ImageUploadDropzone';
+import type { ClientUploadedFileData } from 'uploadthing/types';
 
 export default function TakingPictureTask({ pictureTask }: { pictureTask?: PictureTask }): React.ReactElement {
   // TODO: Rethink typing props
@@ -15,11 +16,12 @@ export default function TakingPictureTask({ pictureTask }: { pictureTask?: Pictu
     return <div>Could not load picture task</div>;
   }
 
-  const [uploadedImage, setUploadedImage] = useState('');
   const [isUploading, setIsUploading] = useState(false);
-  // const { exampleImgUrl } = pictureTask;
+  const [image, setImage] = useState<ClientUploadedFileData<{
+    uploadedBy: string;
+  }> | null>(null);
 
-  console.log(uploadedImage);
+  // const { exampleImgUrl } = pictureTask;
 
   return (
     <>
@@ -49,29 +51,15 @@ export default function TakingPictureTask({ pictureTask }: { pictureTask?: Pictu
         </IconTooltip>
         Upload Image
       </div>
-      <UploadDropzone
-        disabled={isUploading || uploadedImage !== ''}
-        endpoint="imageUploader"
-        appearance={{
-          button: 'ut-uploading:cursor-not-allowed bg-white text-black border-white shadow-sm hover:bg-white/90',
-          allowedContent: 'text-white'
-        }}
-        className="bg-foreground/10 ut-button:bg-foreground ut-button:text-background ut-allowed-content:text-foreground ut-label:text-foreground/50 hover:ut-label:text-foreground ut-uploading:ut-button:cursor-not-allowed ut-uploading:ut-button:bg-foreground/90"
-        onUploadBegin={() => {
-          setIsUploading(true);
-        }}
-        onClientUploadComplete={(res) => {
-          setUploadedImage(res[0].ufsUrl);
-          setIsUploading(false);
-        }}
-        onUploadError={(error: Error) => {
-          console.error('Upload error:', error); // TODO MAYBE ADD TOAST
-          setIsUploading(false);
-        }}
+      <ImageUploadDropzone
+        image={image}
+        setImage={setImage}
+        isUploading={isUploading}
+        setIsUploading={setIsUploading}
       />
       <Button
-        disabled={isUploading || !uploadedImage || uploadedImage === ''}
-        onClick={() => console.log('Image saved:', uploadedImage)} // TODO: SEND IMAGE TO BACKEND
+        disabled={isUploading || !image?.ufsUrl || image?.ufsUrl === ''}
+        onClick={() => console.log('Image saved:', image?.ufsUrl)} // TODO: SEND IMAGE TO BACKEND
       >
         Save Image
       </Button>
