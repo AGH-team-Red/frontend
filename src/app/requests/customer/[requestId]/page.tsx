@@ -1,4 +1,4 @@
-import CustomerOrderCardDetails from '@/components/OrderCard/CustomerOrderCardDetails';
+import CustomerOrderCardDetails from '@/components/OrderCard/customer/CustomerOrderCardDetails';
 
 type CustomerOrderPageProps = {
   params: Promise<{ requestId: string }>;
