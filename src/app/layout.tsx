@@ -8,6 +8,7 @@ import Providers from './providers';
 import NavWrapper from '@/components/Nav/NavWrapper';
 import { Toaster } from '@/components/ui/sonner';
 import { ourFileRouter } from './api/uploadthing/core';
+import { BreadcrumbProvider } from '@/context/BreadcrumbContext';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -34,10 +35,12 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <Providers>
-          <NavWrapper>
-            {children}
-            <Toaster />
-          </NavWrapper>
+          <BreadcrumbProvider>
+            <NavWrapper>
+              {children}
+              <Toaster />
+            </NavWrapper>
+          </BreadcrumbProvider>
         </Providers>
       </body>
     </html>

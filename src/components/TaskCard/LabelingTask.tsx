@@ -144,6 +144,10 @@ export default function LabelingTask({ labelTask }: { labelTask?: LabelTask }) {
             </Button>
             <Button type="submit">{step + 1 === totalSteps ? 'Submit' : 'Next'}</Button>
           </div>
+
+          <div className="text-center text-xs text-gray-500">
+            Task {step + 1} of {totalSteps}
+          </div>
         </form>
       </Form>
     </>

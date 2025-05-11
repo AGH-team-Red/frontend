@@ -63,6 +63,10 @@ export default function CrossCheckTask({ checkTask }: { checkTask?: CheckTask })
         <Button onClick={() => handleResult(false)}>Incorrect</Button>
         <Button onClick={() => handleResult(true)}>Correct</Button>
       </div>
+
+      <div className="text-center text-xs text-gray-500">
+        Task {taskNumber + 1} of {checkTask.checkFeatures.length}
+      </div>
     </>
   );
 }
