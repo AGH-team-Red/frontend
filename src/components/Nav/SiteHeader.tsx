@@ -16,6 +16,7 @@ import { useBreadcrumb } from '@/context/BreadcrumbContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Skeleton } from '../ui/skeleton';
+import Image from 'next/image';
 
 export function SiteHeader() {
   const { toggleSidebar } = useSidebar();
@@ -80,9 +81,7 @@ export function SiteHeader() {
         </Breadcrumb>
         <div className="justify-self-end">
           <Link href="/">
-            <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-              <Command className="size-4" />
-            </div>
+            <Image src="/logo.png" alt="Logo" width={128} height={32} className="h-8 w-32" />
           </Link>
         </div>
       </div>
