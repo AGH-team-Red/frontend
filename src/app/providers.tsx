@@ -6,6 +6,7 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import '@solana/wallet-adapter-react-ui/styles.css';
+import { useMemo } from 'react';
 
 function makeQueryClient() {
   return new QueryClient({
@@ -45,8 +46,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   //       render if it suspends and there is no boundary
   const queryClient = getQueryClient();
   const network = WalletAdapterNetwork.Devnet;
-  const endpoint = 'https://api.devnet.solana.com';
-  const wallets = [new PhantomWalletAdapter()];
+  const endpoint = useMemo(
+    () => `https://api.${network}.solana.com`,
+    [network]
+  );
+  const wallets = useMemo(() => [ new PhantomWalletAdapter() ], [network]);
 
   return (
     <ConnectionProvider endpoint={endpoint}>
@@ -54,7 +58,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         wallets={wallets}
         autoConnect={false}
         onError={(error) => {
-          console.error('Wallet connection error', error);
+          console.error('Wallet connection error', error.message, error.cause);
         }}
       >
         <WalletModalProvider>

@@ -1,13 +1,14 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
-import { Citrus } from 'lucide-react';
+import { Citrus, Calendar, Users, Languages, HandCoins, LayoutList } from 'lucide-react';
 import DetailsCard from '@/components/DetailsCard';
 import DetailsHeader from '@/components/DetailsHeader';
 import { Button } from '@/components/ui/button';
 import { mockedRequests } from '@/lib/mock';
 import ExampleImageCarousel from '@/components/ExampleImageCarousel';
 import { useOrder } from '@/hooks/api/use-order';
+import SolanaIcon from '@/components/SolanaIcon';
 
 export default function ({ requestId }: { requestId: string }): React.ReactNode {
   const request = mockedRequests.find((request) => request.id === requestId);
@@ -45,28 +46,28 @@ export default function ({ requestId }: { requestId: string }): React.ReactNode 
 
   const REQUEST_DETAILS_DATA = [
     {
-      icon: Citrus,
+      icon: Calendar,
       label: 'Request duration: ',
       // @ts-ignore
       value: `${new Date(`${data.startDate}`).toLocaleDateString('en-GB') ?? ''}-${new Date(`${data.endDate}`).toLocaleDateString('en-GB') ?? ''}`
     },
     {
-      icon: Citrus,
+      icon: HandCoins,
       label: 'Entry fee: ',
       value: `${data.entryFee ?? 0} SOL`
     },
     {
-      icon: Citrus,
+      icon: Users,
       label: 'Contributors: ',
       value: `${data.contributors ?? 0}/${request?.minContributors ?? 0}`
     },
     {
-      icon: Citrus,
+      icon: LayoutList,
       label: 'Estimated tasks amount: ',
       value: '20'
     },
     {
-      icon: Citrus,
+      icon: Languages,
       label: 'Label language: ',
       value: data.labelingLanguage ?? 'English'
     }
