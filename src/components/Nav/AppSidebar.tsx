@@ -7,6 +7,7 @@ import { NavMain } from '@/components/Nav/NavMain';
 import { NavSecondary } from '@/components/Nav/NavSecondary';
 import { NavUser } from '@/components/Nav/NavUser';
 import { Sidebar, SidebarContent, SidebarFooter } from '@/components/ui/sidebar';
+import { ConnectWallet } from '@/components/ConnectWallet';
 
 const data = {
   user: {
@@ -53,6 +54,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
+        <ConnectWallet />
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>

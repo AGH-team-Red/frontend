@@ -8,7 +8,8 @@ const initHttpClient = (): HttpClient => {
     const response = await fetch(url, {
       headers: {
         ...options.headers
-      }
+      },
+      body: options.body
     });
 
     if (!response.ok) {

@@ -82,3 +82,12 @@ export interface PictureTask {
   taskId: string;
   exampleImgUrl?: string;
 }
+
+export interface Verification {
+  publicKey: string;
+  signature: string;
+}
+
+export interface VerificationResult {
+  success: boolean;
+}
