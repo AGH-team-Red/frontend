@@ -16,7 +16,7 @@ export default function Requests() {
   }
 
   return (
-    <div className="space-y-4 p-4">
+    <div className="grid grid-cols-1 place-items-center gap-4 p-4 lg:grid-cols-2 2xl:grid-cols-3">
       {query.data.map((order) => (
         <OrderCard key={order.name} userType="user" order={order} onClickRoute="requests/user" />
       ))}
