@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useDatasetRequest } from '@/context/DatasetRequestContext';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Citrus } from 'lucide-react';
+import { FolderPen } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -59,7 +59,7 @@ export default function CreateFeature() {
                     <FormLabel>
                       <IconTooltip text="Dummy text">
                         {/* TODO */}
-                        <Citrus size={16} />
+                        <FolderPen size={16} />
                       </IconTooltip>
                       Feature name
                     </FormLabel>
@@ -78,7 +78,7 @@ export default function CreateFeature() {
                     <FormLabel>
                       <IconTooltip text="Dummy text">
                         {/* TODO */}
-                        <Citrus size={16} />
+                        <FolderPen size={16} />
                       </IconTooltip>
                       Label guidelines
                     </FormLabel>
