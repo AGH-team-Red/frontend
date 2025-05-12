@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { mockedRequests } from '@/lib/mock';
 import ExampleImageCarousel from '@/components/ExampleImageCarousel';
 import { useOrder } from '@/hooks/api/use-order';
-import SolanaIcon from '@/components/SolanaIcon';
 
 export default function ({ requestId }: { requestId: string }): React.ReactNode {
   const request = mockedRequests.find((request) => request.id === requestId);

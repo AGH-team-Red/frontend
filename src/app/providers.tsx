@@ -46,11 +46,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   //       render if it suspends and there is no boundary
   const queryClient = getQueryClient();
   const network = WalletAdapterNetwork.Devnet;
-  const endpoint = useMemo(
-    () => `https://api.${network}.solana.com`,
-    [network]
-  );
-  const wallets = useMemo(() => [ new PhantomWalletAdapter() ], [network]);
+  const endpoint = useMemo(() => `https://api.${network}.solana.com`, [network]);
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
 
   return (
     <ConnectionProvider endpoint={endpoint}>
