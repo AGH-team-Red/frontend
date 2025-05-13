@@ -23,20 +23,35 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
-          <CardDescription>Login with your Apple or Google account</CardDescription>
+          <CardDescription>Login with your Solana wallet or email</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={onSubmit}>
+          <form>
             <div className="grid gap-6">
               <div className="flex flex-col gap-4">
-                <Button variant="outline" className="w-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <Button
+                  variant="outline"
+                  className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600"
+                >
+                  <svg width="20" height="20" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" className="mr-2">
                     <path
-                      d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
+                      d="M93.96 42.3H34.11c-7.17 0-13 5.82-13 13v17.48c0 7.17 5.83 13 13 13h59.85c7.17 0 13-5.83 13-13V55.3c0-7.18-5.83-13-13-13z"
                       fill="currentColor"
                     />
+                    <path
+                      d="M41.54 54.9c-5.44 0-9.86 4.42-9.86 9.86s4.42 9.86 9.86 9.86 9.86-4.42 9.86-9.86-4.42-9.86-9.86-9.86zm0 16.07c-3.42 0-6.21-2.79-6.21-6.21s2.79-6.21 6.21-6.21 6.21 2.79 6.21 6.21-2.79 6.21-6.21 6.21z"
+                      fill="white"
+                    />
+                    <path
+                      d="M73.66 54.9H57.59c-1.01 0-1.83.82-1.83 1.83v16.07c0 1.01.82 1.83 1.83 1.83h16.07c1.01 0 1.83-.82 1.83-1.83V56.73c0-1.01-.82-1.83-1.83-1.83zm-1.83 16.07H59.42V58.56h12.41v12.41z"
+                      fill="white"
+                    />
+                    <path
+                      d="M86.53 54.9c-5.44 0-9.86 4.42-9.86 9.86s4.42 9.86 9.86 9.86 9.86-4.42 9.86-9.86-4.42-9.86-9.86-9.86zm0 16.07c-3.42 0-6.21-2.79-6.21-6.21s2.79-6.21 6.21-6.21 6.21 2.79 6.21 6.21-2.79 6.21-6.21 6.21z"
+                      fill="white"
+                    />
                   </svg>
-                  Login with Google
+                  Sign in with Solana Wallet
                 </Button>
               </div>
               <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
@@ -45,13 +60,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
               <div className="grid gap-6">
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input
-                    onChange={(e) => setEmail(e.target.value)}
-                    id="email"
-                    type="email"
-                    placeholder="m@example.com"
-                    required
-                  />
+                  <Input id="email" type="email" placeholder="m@example.com" required />
                 </div>
                 <div className="grid gap-2">
                   <div className="flex items-center">
@@ -60,7 +69,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                       Forgot your password?
                     </a>
                   </div>
-                  <Input onChange={(e) => setPassword(e.target.value)} id="password" type="password" required />
+                  <Input id="password" type="password" required />
                 </div>
                 <Button type="submit" className="w-full">
                   Login
@@ -68,9 +77,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{' '}
-                <Link href="/register" className="underline underline-offset-4">
+                <a href="#" className="underline underline-offset-4">
                   Sign up
-                </Link>
+                </a>
               </div>
             </div>
           </form>
