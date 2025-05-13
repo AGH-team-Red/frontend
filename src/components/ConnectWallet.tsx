@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/api/use-auth';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 const ConnectWallet = (): React.ReactNode => {
   const { publicKey, signMessage, connected } = useWallet();

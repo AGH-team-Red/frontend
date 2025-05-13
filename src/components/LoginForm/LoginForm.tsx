@@ -1,22 +1,62 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useAuth } from '@/hooks/api/use-auth';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
+import { SolanaConnectWalletButton } from '@/components/SolanaConnectWalletButton';
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
+  const { publicKey, signMessage, connected, connecting } = useWallet();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const { nonceQuery, verifyMutation } = useAuth(publicKey);
+  const { setVisible } = useWalletModal();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     console.log('data ', email, password);
   };
+
+  useEffect(() => {
+    console.log('solana wallet connecting ', connecting);
+  }, [connecting]);
+
+  const handleSignInSolanaWallet = useCallback(async () => {
+    if (!publicKey || !connected) {
+      setVisible(true);
+
+      return;
+    }
+
+    if (!signMessage) {
+      console.error('Wallet does not support message signing');
+      return;
+    }
+
+    try {
+      const { data: nonce } = await nonceQuery.refetch();
+
+      if (!nonce) {
+        console.log('Could not fetch nonce');
+      }
+
+      const message = new TextEncoder().encode(String(nonce));
+      const signatureBytes = await signMessage(message);
+      const signature = Buffer.from(signatureBytes).toString('base64');
+
+      verifyMutation.mutate({ publicKey: publicKey.toString(), signature });
+    } catch (err) {
+      console.error('Sign-in error:', err);
+    }
+  }, [publicKey, connected, signMessage, nonceQuery, verifyMutation, setVisible]);
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -29,7 +69,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
           <form>
             <div className="grid gap-6">
               <div className="flex flex-col gap-4">
+                <SolanaConnectWalletButton />
                 <Button
+                  onClick={handleSignInSolanaWallet}
                   variant="outline"
                   className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600"
                 >
