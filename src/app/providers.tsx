@@ -7,6 +7,7 @@ import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import '@solana/wallet-adapter-react-ui/styles.css';
 import { useMemo } from 'react';
+import { AuthProvider } from '@/context/AuthContext';
 
 function makeQueryClient() {
   return new QueryClient({
@@ -55,12 +56,14 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         wallets={wallets}
         autoConnect={false}
         onError={(error) => {
-          console.error('Wallet connection error', error.message, error.cause);
+          console.error('Wallet connection error', error.message, error.cause, error.stack);
         }}
       >
-        <WalletModalProvider>
-          <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-        </WalletModalProvider>
+        <AuthProvider>
+          <WalletModalProvider>
+            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+          </WalletModalProvider>
+        </AuthProvider>
       </WalletProvider>
     </ConnectionProvider>
   );

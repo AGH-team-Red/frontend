@@ -15,8 +15,6 @@ export default function Requests() {
     return <div>Error</div>;
   }
 
-  console.log('data order page ', data);
-
   return (
     <div className="grid grid-cols-1 place-items-center gap-4 p-4 lg:grid-cols-2 2xl:grid-cols-3">
       {data.map((order) => (

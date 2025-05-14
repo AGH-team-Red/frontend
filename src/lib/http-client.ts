@@ -5,12 +5,15 @@ interface HttpClient {
 
 const initHttpClient = (): HttpClient => {
   const get = async <T>(url: string, options: RequestInit = {}): Promise<T> => {
+    console.log('inside get', url, options);
     const response = await fetch(url, {
       headers: {
         ...options.headers
       },
       body: options.body
     });
+
+    console.log('after fetch get', url, options);
 
     if (!response.ok) {
       throw new Error('Some error occurred.');

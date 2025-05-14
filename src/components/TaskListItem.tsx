@@ -9,6 +9,7 @@ import { Clock5, DollarSign, Tag } from 'lucide-react';
 import Link from 'next/link';
 
 export default function TaskListItem({ task }: { task: Task }) {
+  console.log('task asdklfjaslkdjflaksdjf', task);
   const { isLoading, error, data } = useOrder(task.orderId);
 
   if (isLoading) {
