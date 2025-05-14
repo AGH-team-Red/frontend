@@ -2,7 +2,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -16,6 +16,7 @@ import {
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
 import WalletCard from '../WalletCard/WalletCard';
 
+
 export function NavUser({
   user
 }: {
@@ -25,7 +26,7 @@ export function NavUser({
     avatar: string;
   };
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
   const [walletOpen, setWalletOpen] = React.useState(false);
 
   const router = useRouter();
@@ -80,10 +81,12 @@ export function NavUser({
                 onSelect={() => {
                   if (isMobile) {
                     router.push('/account'); 
+                    setOpenMobile(false)
                   } else {
                     setWalletOpen(true); 
                   }
                 }}
+                
               >
                 <BadgeCheck />
                 Account
@@ -105,8 +108,9 @@ export function NavUser({
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
-      <Dialog open={walletOpen} onOpenChange={setWalletOpen}>
-        <DialogContent className="max-w-fit border-none bg-transparent p-0 shadow-none">
+      <Dialog open={walletOpen} onOpenChange={setWalletOpen} >
+        <DialogTitle></DialogTitle>
+        <DialogContent renderCloseButton = {false} className="max-w-fit border-none bg-transparent p-0 shadow-none">
           <WalletCard onCancel={() => setWalletOpen(false)} />
         </DialogContent>
       </Dialog>
