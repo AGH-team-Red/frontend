@@ -6,6 +6,8 @@ import TaskListItem from '@/components/TaskListItem';
 export default function Tasks() {
   const { data, isLoading, error } = useTasks();
 
+  console.log('tasks LIST', data);
+
   if (error || !data) {
     return <div>Could not load tasks</div>;
   }
