@@ -1,10 +1,11 @@
 import { IconTooltip } from '@/components/IconTooltip';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Citrus } from 'lucide-react';
-import Image from 'next/image';
 import { CheckTask } from '@/lib/types';
+import { Info } from 'lucide-react';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import TaskProgress from './TaskProgress';
 
 type CrossCheckResponse = Record<number, boolean>;
 
@@ -48,25 +49,22 @@ export default function CrossCheckTask({ checkTask }: { checkTask?: CheckTask })
         />
         {'TODO Get image from order '}
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 md:text-lg">
         <IconTooltip text="Dummy text">
-          <Citrus size={16} />
+          <Info size={16} />
         </IconTooltip>
-        {checkTask.checkFeatures[taskNumber].label}
+        {checkTask.checkFeatures[taskNumber].name}
       </div>
       <Card className="py-3">
-        <CardContent className="flex flex-col space-y-2 px-3 text-xs">
+        <CardContent className="flex flex-col space-y-2 px-3 text-xs md:text-base">
           <p>{checkTask.checkFeatures[taskNumber].label}</p>
         </CardContent>
       </Card>
-      <div className="flex items-center justify-between">
+      <div className="mt-auto mb-4 flex items-center justify-between md:mt-0">
         <Button onClick={() => handleResult(false)}>Incorrect</Button>
         <Button onClick={() => handleResult(true)}>Correct</Button>
       </div>
-
-      <div className="text-center text-xs text-gray-500">
-        Task {taskNumber + 1} of {checkTask.checkFeatures.length}
-      </div>
+      <TaskProgress className="" current={taskNumber} max={checkTask.checkFeatures.length} />
     </>
   );
 }
