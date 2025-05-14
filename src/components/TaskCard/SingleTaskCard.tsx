@@ -9,8 +9,9 @@ import { useTask } from '@/hooks/api/use-task';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Task } from '@/lib/types';
 
-const SingleTaskCard = ({ taskId }: { taskId: string }): React.ReactNode => {
+export default function SingleTaskCard({ taskId }: { taskId: string }) {
   const { setOrderName } = useBreadcrumb();
   const isMobile = useIsMobile();
   const { data: task, isLoading, error } = useTask(taskId);
@@ -48,13 +49,7 @@ const SingleTaskCard = ({ taskId }: { taskId: string }): React.ReactNode => {
         <>
           <h1 className="text-2xl font-bold">{order.name}</h1>
           <p className="text-xs">{order.datasetDescription}</p>
-          {task.type === 'taking_picture' ? (
-            <TakingPictureTask pictureTask={task.pictureTask} />
-          ) : task.type === 'labeling' ? (
-            <LabelingTask labelTask={task.labelTask} />
-          ) : (
-            <CrossCheckTask checkTask={task.checkTask} />
-          )}
+          <TaskRenderer task={task} />
         </>
       ) : (
         <Card className="w-full max-w-md text-white">
@@ -63,18 +58,21 @@ const SingleTaskCard = ({ taskId }: { taskId: string }): React.ReactNode => {
             <CardDescription className="text-gray-400">{order.datasetDescription}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {task.type === 'taking_picture' ? (
-              <TakingPictureTask pictureTask={task.pictureTask} />
-            ) : task.type === 'labeling' ? (
-              <LabelingTask labelTask={task.labelTask} />
-            ) : (
-              <CrossCheckTask checkTask={task.checkTask} />
-            )}
+            <TaskRenderer task={task} />
           </CardContent>
         </Card>
       )}
     </div>
   );
-};
+}
 
-export { SingleTaskCard };
+const TaskRenderer = ({ task }: { task: Task }) => {
+  switch (task.type) {
+    case 'taking_picture':
+      return <TakingPictureTask pictureTask={task.pictureTask} />;
+    case 'labeling':
+      return <LabelingTask labelTask={task.labelTask} />;
+    default:
+      return <CrossCheckTask checkTask={task.checkTask} />;
+  }
+};

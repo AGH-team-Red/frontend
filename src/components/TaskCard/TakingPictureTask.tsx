@@ -57,12 +57,14 @@ export default function TakingPictureTask({ pictureTask }: { pictureTask?: Pictu
         isUploading={isUploading}
         setIsUploading={setIsUploading}
       />
-      <Button
-        disabled={isUploading || !image?.ufsUrl || image?.ufsUrl === ''}
-        onClick={() => console.log('Image saved:', image?.ufsUrl)} // TODO: SEND IMAGE TO BACKEND
-      >
-        Save Image
-      </Button>
+      <div className="mt-auto flex justify-end md:mt-0">
+        <Button
+          disabled={isUploading || !image?.ufsUrl || image?.ufsUrl === ''}
+          onClick={() => console.log('Image saved:', image?.ufsUrl)} // TODO: SEND IMAGE TO BACKEND
+        >
+          Save Image
+        </Button>
+      </div>
     </>
   );
 }
