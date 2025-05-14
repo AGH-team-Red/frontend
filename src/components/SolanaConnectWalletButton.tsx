@@ -11,7 +11,7 @@ const SolanaConnectWalletButton = () => {
     wallets: Wallet[];
   }> | null>(null);
   const { buttonState, onConnect, onDisconnect, onSelectWallet } = useWalletMultiButton({
-    onSelectWallet: setWalletModalConfig,
+    onSelectWallet: setWalletModalConfig
   });
   let label;
   switch (buttonState) {
@@ -71,6 +71,6 @@ const SolanaConnectWalletButton = () => {
       ) : null}
     </>
   );
-}
+};
 
 export { SolanaConnectWalletButton };

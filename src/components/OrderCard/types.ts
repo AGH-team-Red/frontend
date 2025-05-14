@@ -1,8 +1,8 @@
 import { Order } from '@/lib/types';
 
-export type RequestedCardProps = {
+export type OrderCardProps = {
   userType: 'user' | 'client';
-  order: Order;
+  orderId: string;
   onClickRoute: string;
 };
 

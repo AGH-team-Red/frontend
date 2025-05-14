@@ -8,10 +8,10 @@ import DesktopOrderView from './DesktopOrderView';
 import MobileOrderView from './MobileOrderView';
 import { useEffect } from 'react';
 
-export default function CustomerOrderCardDetails({ requestId }: { requestId: string }) {
+export default function CustomerOrderCardDetails({ orderId }: { orderId: string }) {
   const isMobile = useIsMobile();
   const { setOrderName } = useBreadcrumb();
-  const { data, isLoading, error } = useOrder(requestId);
+  const { data, isLoading, error } = useOrder(orderId);
 
   useEffect(() => {
     if (data?.name) {

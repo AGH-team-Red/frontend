@@ -1,13 +1,12 @@
 'use client';
 
-import { Home, LifeBuoy, MailSearch, Send, Settings2 } from 'lucide-react';
+import { ArrowLeftRight, FolderSearch2, LifeBuoy, ListTodo, Send } from 'lucide-react';
 import * as React from 'react';
 
 import { NavMain } from '@/components/Nav/NavMain';
 import { NavSecondary } from '@/components/Nav/NavSecondary';
 import { NavUser } from '@/components/Nav/NavUser';
 import { Sidebar, SidebarContent, SidebarFooter } from '@/components/ui/sidebar';
-import { ConnectWallet } from '@/components/ConnectWallet';
 
 const data = {
   user: {
@@ -17,19 +16,19 @@ const data = {
   },
   navMain: [
     {
-      title: 'Home',
+      title: 'Orders',
       url: '/',
-      icon: Home
+      icon: ArrowLeftRight
     },
     {
-      title: 'Requests',
-      url: '/requests',
-      icon: MailSearch
+      title: 'Browse Orders',
+      url: '/order/browse',
+      icon: FolderSearch2
     },
     {
-      title: 'Settings',
-      url: '/settings',
-      icon: Settings2
+      title: 'My Tasks',
+      url: '/my-tasks',
+      icon: ListTodo
     }
   ],
   navSecondary: [
@@ -54,7 +53,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <ConnectWallet />
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>

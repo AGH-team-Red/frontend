@@ -32,9 +32,9 @@ export default function RootLayout({
   }
 
   return (
-    <NavWrapper>
+    <>
       {children}
       <Toaster />
-    </NavWrapper>
+    </>
   );
 }
