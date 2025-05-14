@@ -132,3 +132,6 @@ input[type='number']::-webkit-outer-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+.dialog-no-close [data-dialog-close] {
+  display: none !important;
+}

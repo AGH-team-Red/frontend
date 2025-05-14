@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { UseFormReturn } from 'react-hook-form'; // Importowanie typu
+import { UseFormReturn } from 'react-hook-form'; 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-// Definicja typu propsów
+
 interface WalletTabsProps {
-  form: UseFormReturn<{ amount: number }>; // Typ dla props form
+  form: UseFormReturn<{ amount: number }>; 
 }
 
 export default function WalletTabs({ form }: WalletTabsProps) {
@@ -17,7 +17,6 @@ export default function WalletTabs({ form }: WalletTabsProps) {
         <TabsTrigger value="withdraw">Withdraw</TabsTrigger>
       </TabsList>
 
-      {/* Zakładka Deposit */}
       <TabsContent value="deposit">
         <Form {...form}>
           <FormField
@@ -44,7 +43,6 @@ export default function WalletTabs({ form }: WalletTabsProps) {
         </Form>
       </TabsContent>
 
-      {/* Zakładka Withdraw */}
       <TabsContent value="withdraw">
         <Form {...form}>
           <FormField

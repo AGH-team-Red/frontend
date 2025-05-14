@@ -1,7 +1,8 @@
 'use client';
-
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react';
-
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -13,6 +14,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
+import WalletCard from '../WalletCard/WalletCard';
 
 export function NavUser({
   user
@@ -24,7 +26,9 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const [walletOpen, setWalletOpen] = React.useState(false);
 
+  const router = useRouter();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -72,7 +76,15 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() => {
+                  if (isMobile) {
+                    router.push('/account'); 
+                  } else {
+                    setWalletOpen(true); 
+                  }
+                }}
+              >
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
@@ -93,6 +105,11 @@ export function NavUser({
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
+      <Dialog open={walletOpen} onOpenChange={setWalletOpen}>
+        <DialogContent className="max-w-fit border-none bg-transparent p-0 shadow-none">
+          <WalletCard onCancel={() => setWalletOpen(false)} />
+        </DialogContent>
+      </Dialog>
     </SidebarMenu>
   );
 }
