@@ -50,9 +50,7 @@ export default function CrossCheckTask({ checkTask }: { checkTask?: CheckTask })
         {'TODO Get image from order '}
       </div>
       <div className="flex items-center gap-2 md:text-lg">
-        <IconTooltip text="Dummy text">
-          <Info size={16} />
-        </IconTooltip>
+        <IconTooltip tooltipText="Dummy text" Icon={Info} />
         {checkTask.checkFeatures[taskNumber].name}
       </div>
       <Card className="py-3">

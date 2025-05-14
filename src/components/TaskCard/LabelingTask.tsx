@@ -105,9 +105,7 @@ export default function LabelingTask({ labelTask }: { labelTask?: LabelTask }) {
             </Dialog>
           </div>
           <div className="flex items-center gap-2">
-            <IconTooltip text="Dummy text">
-              <Info size={16} />
-            </IconTooltip>
+            <IconTooltip tooltipText="Dummy text" Icon={Info} />
             Image guidelines: {currentFeature.featureLabel}
           </div>
         </CardContent>
@@ -121,9 +119,7 @@ export default function LabelingTask({ labelTask }: { labelTask?: LabelTask }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  <IconTooltip text={'Enter details about this feature'}>
-                    <HelpCircle size={16} />
-                  </IconTooltip>
+                  <IconTooltip tooltipText={'Enter details about this feature'} Icon={HelpCircle} />
                   {currentFeature.featureLabel}
                 </FormLabel>
                 <FormControl>

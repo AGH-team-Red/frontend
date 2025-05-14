@@ -10,32 +10,31 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { IconTooltip } from '../IconTooltip';
-import { createOrderSchema, type CreateOrderFormSchema } from './NewRequestForm.utils';
+import { createOrderSchema, type CreateOrderFormSchema } from './NewOrderForm.utils';
 
 import { useDatasetRequest } from '@/context/DatasetRequestContext';
 import { useCreateOrder } from '@/hooks/api/use-create-order';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import {
-  CalendarIcon,
-  Citrus,
   CalendarArrowDown,
   CalendarArrowUp,
-  FolderPen,
-  X,
+  CalendarIcon,
   CircleDollarSign,
+  FolderPen,
+  ImageUp,
+  ImageUpscale,
   Languages,
   List,
   SwatchBook,
-  ImageUpscale,
-  ImageUp
+  X
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
-export default function NewRequestForm() {
+export default function NewOrderForm() {
   const router = useRouter();
   const { formData, updateFormData, features, removeFeature } = useDatasetRequest();
   const createOrderMutation = useCreateOrder();
@@ -65,7 +64,7 @@ export default function NewRequestForm() {
 
   const handleAddFeatureClick = () => {
     updateFormData(form.getValues());
-    router.push('/requests/create-feature');
+    router.push('/order/create-feature');
   };
 
   const onSubmit = (data: CreateOrderFormSchema) => {
@@ -82,7 +81,7 @@ export default function NewRequestForm() {
       }
     });
 
-    router.push('/requests/customer');
+    router.push('/');
   };
 
   return (
@@ -101,10 +100,7 @@ export default function NewRequestForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        {/* TODO */}
-                        <FolderPen size={16} />
-                      </IconTooltip>
+                      <IconTooltip tooltipText="Dummy text" Icon={FolderPen} />
                       Order name
                     </FormLabel>
                     <FormControl>
@@ -120,9 +116,7 @@ export default function NewRequestForm() {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        <CalendarArrowDown size={16} />
-                      </IconTooltip>
+                      <IconTooltip tooltipText="Dummy text" Icon={CalendarArrowDown} />
                       Order start date
                     </FormLabel>
                     <Popover>
@@ -166,9 +160,7 @@ export default function NewRequestForm() {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        <CalendarArrowUp size={16} />
-                      </IconTooltip>
+                      <IconTooltip tooltipText="Dummy text" Icon={CalendarArrowUp} />
                       Order end date
                     </FormLabel>
                     <Popover>
@@ -206,9 +198,7 @@ export default function NewRequestForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        <CircleDollarSign size={16} />
-                      </IconTooltip>
+                      <IconTooltip tooltipText="Dummy text" Icon={CircleDollarSign} />
                       Order budget
                     </FormLabel>
                     <FormControl>
@@ -230,9 +220,7 @@ export default function NewRequestForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        <Languages size={16} />
-                      </IconTooltip>
+                      <IconTooltip tooltipText="Dummy text" Icon={Languages} />
                       Choose labeling language
                     </FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value ?? ''}>
@@ -262,10 +250,7 @@ export default function NewRequestForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        {/* TODO */}
-                        <List size={16} />
-                      </IconTooltip>
+                      <IconTooltip tooltipText="Dummy text" Icon={List} />
                       Dataset description
                     </FormLabel>
                     <FormControl>
@@ -285,10 +270,7 @@ export default function NewRequestForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        {/* TODO */}
-                        <SwatchBook size={16} />
-                      </IconTooltip>
+                      <IconTooltip tooltipText="Dummy text" Icon={SwatchBook} />
                       Minimal dataset samples count
                     </FormLabel>
                     <FormControl>
@@ -315,10 +297,7 @@ export default function NewRequestForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        {/* TODO */}
-                        <ImageUpscale size={16} />
-                      </IconTooltip>
+                      <IconTooltip tooltipText="Dummy text" Icon={ImageUpscale} />
                       Image guidelines:
                     </FormLabel>
                     <FormControl>
@@ -338,10 +317,7 @@ export default function NewRequestForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        {/* TODO */}
-                        <ImageUp size={16} />
-                      </IconTooltip>
+                      <IconTooltip tooltipText="Dummy text" Icon={ImageUp} />
                       Upload example image
                     </FormLabel>
                     <FormControl>

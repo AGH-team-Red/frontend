@@ -33,7 +33,7 @@ export default function Requests() {
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-4 p-4">
-      <Link href="//create-request" className="block">
+      <Link href="/order/create-order" className="block">
         <Button className="cursor-pointer">New order</Button>
       </Link>
 
@@ -52,7 +52,7 @@ export default function Requests() {
 
       <div className="grid grid-cols-1 place-items-center gap-2 lg:grid-cols-2 2xl:grid-cols-3">
         {filteredOrders.map((order) => (
-          <OrderCard key={order.id} userType="client" orderId={order.id} onClickRoute="requests/customer" />
+          <OrderCard key={order.id} userType="client" orderId={order.id} onClickRoute="order/" />
         ))}
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { IconTooltip } from '@/components/IconTooltip';
-import { createFeatureSchema, featureSchema } from '@/components/NewRequestForm/NewRequestForm.utils';
+import { createFeatureSchema, featureSchema } from '@/components/NewOrderForm/NewOrderForm.utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -57,10 +57,7 @@ export default function CreateFeature() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        {/* TODO */}
-                        <FolderPen size={16} />
-                      </IconTooltip>
+                      <IconTooltip tooltipText="Dummy text" Icon={FolderPen} />
                       Feature name
                     </FormLabel>
                     <FormControl>
@@ -76,10 +73,7 @@ export default function CreateFeature() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      <IconTooltip text="Dummy text">
-                        {/* TODO */}
-                        <FolderPen size={16} />
-                      </IconTooltip>
+                      <IconTooltip tooltipText="Dummy text" Icon={FolderPen} />
                       Label guidelines
                     </FormLabel>
                     <FormControl>

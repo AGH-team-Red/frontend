@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeftRight, FolderSearch2, LifeBuoy, ListTodo, Send } from 'lucide-react';
+import { ClipboardList, LifeBuoy, ListTodo, SearchCheck, Send } from 'lucide-react';
 import * as React from 'react';
 
 import { NavMain } from '@/components/Nav/NavMain';
@@ -18,12 +18,12 @@ const data = {
     {
       title: 'Orders',
       url: '/',
-      icon: ArrowLeftRight
+      icon: ClipboardList
     },
     {
-      title: 'Browse Orders',
+      title: 'Browse Tasks',
       url: '/order/browse',
-      icon: FolderSearch2
+      icon: SearchCheck
     },
     {
       title: 'My Tasks',

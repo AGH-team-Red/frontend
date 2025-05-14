@@ -27,9 +27,7 @@ export default function TaskListItem({ task }: { task: Task }) {
           <div className="flex flex-col gap-2 text-zinc-400">
             <h2 className="text-base font-medium text-white md:text-lg">{data.name}</h2>
             <div className="flex items-center gap-2">
-              <IconTooltip text="Dummy text">
-                <Tag size={16} />
-              </IconTooltip>
+              <IconTooltip tooltipText="Dummy text" Icon={Tag} />
               Type:{' '}
               {task.type
                 .split('_')
@@ -37,15 +35,11 @@ export default function TaskListItem({ task }: { task: Task }) {
                 .join(' ')}
             </div>
             <div className="flex items-center gap-2">
-              <IconTooltip text="Dummy text">
-                <Clock5 size={16} />
-              </IconTooltip>
+              <IconTooltip tooltipText="Dummy text" Icon={Clock5} />
               Deadline: {format(task.endDate, 'P')}
             </div>
             <div className="flex items-center gap-2">
-              <IconTooltip text="Dummy text">
-                <DollarSign size={16} />
-              </IconTooltip>
+              <IconTooltip tooltipText="Dummy text" Icon={DollarSign} />
               Estimated Reward: ~{task.estimatedReward}
               SOL
             </div>

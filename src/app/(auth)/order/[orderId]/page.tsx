@@ -1,4 +1,4 @@
-import ClientOrderCardDetails from '@/components/OrderCard/ClientOrderCardDetails';
+import CustomerOrderCardDetails from '@/components/OrderCard/customer/CustomerOrderCardDetails';
 
 type CustomerOrderPageProps = {
   params: Promise<{ orderId: string }>;
@@ -7,5 +7,5 @@ type CustomerOrderPageProps = {
 export default async function Page({ params }: CustomerOrderPageProps): Promise<React.ReactNode> {
   const { orderId } = await params;
 
-  return <ClientOrderCardDetails orderId={orderId} />;
+  return <CustomerOrderCardDetails orderId={orderId} />;
 }

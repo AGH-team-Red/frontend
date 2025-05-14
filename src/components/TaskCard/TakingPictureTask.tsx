@@ -38,17 +38,13 @@ export default function TakingPictureTask({ pictureTask }: { pictureTask?: Pictu
             />
           </div>
           <div className="flex items-center gap-2">
-            <IconTooltip text="Dummy text">
-              <ImageIcon size={16} />
-            </IconTooltip>
+            <IconTooltip tooltipText="Dummy text" Icon={ImageIcon} />
             Image guidelines: {'TODO'}
           </div>
         </CardContent>
       </Card>
       <div className="flex items-center gap-2 text-xs">
-        <IconTooltip text="Dummy text">
-          <ImageDown size={16} />
-        </IconTooltip>
+        <IconTooltip tooltipText="Dummy text" Icon={ImageDown} />
         Upload Image
       </div>
       <ImageUploadDropzone

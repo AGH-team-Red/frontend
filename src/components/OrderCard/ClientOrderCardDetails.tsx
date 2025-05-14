@@ -10,9 +10,9 @@ import { useBreadcrumb } from '@/context/BreadcrumbContext';
 import { useOrder } from '@/hooks/api/use-order';
 import { useEffect } from 'react';
 
-export default function ({ requestId }: { requestId: string }): React.ReactNode {
+export default function ClientOrderCardDetails({ orderId }: { orderId: string }) {
   const { setOrderName } = useBreadcrumb();
-  const { data, error, isLoading } = useOrder(requestId);
+  const { data, error, isLoading } = useOrder(orderId);
 
   useEffect(() => {
     if (data?.name) {
