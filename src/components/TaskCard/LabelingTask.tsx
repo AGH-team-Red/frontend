@@ -65,7 +65,6 @@ export default function LabelingTask({ labelTask }: { labelTask?: LabelTask }) {
 
     setStep((prev) => {
       if (prev + 1 >= totalSteps) {
-        console.log('All labels', labels, currentFeature.id, data.label);
         return prev;
       }
 

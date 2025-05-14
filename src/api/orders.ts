@@ -4,15 +4,11 @@ import { Order } from '@/lib/types';
 const fetchOrders = async (): Promise<Array<Order>> => {
   const response = await httpClient.get<Array<Order>>('http://localhost:3005/orders', {});
 
-  console.log('fetching orders ', response);
-
   return response;
 };
 
 const fetchOrder = async (orderId: string): Promise<Order> => {
   const response = await httpClient.get<Order>(`http://localhost:3005/orders/${orderId}`, {});
-
-  console.log(`fetching order ${orderId}`, response);
 
   return response;
 };
