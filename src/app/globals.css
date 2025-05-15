@@ -123,3 +123,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.uploader > div {
+  @apply mt-0 w-full lg:mt-2;
+}
