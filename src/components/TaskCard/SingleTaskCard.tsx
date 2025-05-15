@@ -44,7 +44,7 @@ export default function SingleTaskCard({ taskId }: { taskId: string }) {
   }
 
   return (
-    <div className="mx-auto flex min-h-[calc(100vh_-_var(--header-height))] max-w-[420px] flex-col justify-center space-y-3 p-4 md:mx-0 md:max-w-none md:flex-row md:items-center">
+    <div className="mx-auto flex min-h-[calc(100vh_-_var(--header-height))] w-full max-w-[380px] flex-col justify-center space-y-3 p-4 md:mx-0 md:max-w-none md:flex-row md:items-center">
       {isMobile ? (
         <>
           <h1 className="text-2xl font-bold">{order.name}</h1>

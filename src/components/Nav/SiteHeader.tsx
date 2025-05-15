@@ -23,16 +23,14 @@ export function SiteHeader() {
   const pathname = usePathname();
   const { orderName } = useBreadcrumb();
 
-  const isRequestsSection = pathname.startsWith('/requests');
+  const isOrderBrowseSection = pathname.startsWith('/order/browse');
+  const isOrderSection = pathname.startsWith('/order/');
   const isTasksSection = pathname.startsWith('/my-tasks');
 
   const pathParts = pathname.split('/').filter(Boolean);
 
-  const isIntermediatePage =
-    isRequestsSection && pathParts.length === 2 && (pathParts[1] === 'customer' || pathParts[1] === 'user');
-
   const shouldShowOrderName =
-    (isRequestsSection && pathParts.length >= 3 && !isIntermediatePage) || (isTasksSection && pathParts.length >= 2);
+    (isOrderBrowseSection && pathParts.length >= 3) || (isTasksSection && pathParts.length >= 2) || isOrderSection;
 
   return (
     <header className="bg-background sticky top-0 z-50 flex w-full items-center border-b">
@@ -47,11 +45,20 @@ export function SiteHeader() {
               <BreadcrumbLink href="/">Home</BreadcrumbLink>
             </BreadcrumbItem>
 
-            {isRequestsSection && (
+            {isOrderBrowseSection && (
               <>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/requests">Requests</BreadcrumbLink>
+                  <BreadcrumbLink href="/order/browse">Browse</BreadcrumbLink>
+                </BreadcrumbItem>
+              </>
+            )}
+
+            {isOrderSection && (
+              <>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Order</BreadcrumbLink>
                 </BreadcrumbItem>
               </>
             )}
