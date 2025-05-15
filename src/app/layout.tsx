@@ -7,7 +7,7 @@ import './globals.css';
 import Providers from './providers';
 import NavWrapper from '@/components/Nav/NavWrapper';
 import { Toaster } from '@/components/ui/sonner';
-import { ourFileRouter } from '@//api/uploadthing/core';
+import { ourFileRouter } from '@/app/api/uploadthing/core';
 import { BreadcrumbProvider } from '@/context/BreadcrumbContext';
 
 const geistSans = Geist({
