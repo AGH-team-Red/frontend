@@ -37,7 +37,7 @@ export default function Requests() {
         <Button className="cursor-pointer">New order</Button>
       </Link>
 
-      <div className="bg-card mx-auto flex w-fit justify-evenly gap-2 rounded-md border p-4 py-2 md:mx-0 md:gap-4">
+      <div className="bg-card mx-auto flex w-fit justify-between gap-1 rounded-md border p-2 py-2 sm:gap-2 md:mx-0 md:gap-4">
         {FILTER_OPTIONS.map((filter) => (
           <Badge
             key={filter}

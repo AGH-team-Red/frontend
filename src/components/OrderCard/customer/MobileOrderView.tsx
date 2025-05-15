@@ -24,7 +24,7 @@ export default function MobileOrderView({ data }: { data: Order }) {
   ];
 
   return (
-    <div className="space-y-3 p-4">
+    <div className="mx-auto max-w-[400px] space-y-3 p-4">
       <h1 className="text-2xl">{data.name}</h1>
       <Card className="p-6">
         <CardContent className="flex flex-col gap-3 p-0">
@@ -54,17 +54,17 @@ export default function MobileOrderView({ data }: { data: Order }) {
         <CardContent className="space-y-2.5 p-3 text-xs">
           <h2>Order parameters</h2>
           <div className="flex items-center gap-2">
-            <Calendar size={16} />
+            <Calendar size={16} className="text-primary" />
             Order duration: {new Date(`${data.startDate}`).toLocaleDateString('en-GB')}
             {' - '}
             {new Date(`${data.endDate}`).toLocaleDateString('en-GB')}
           </div>
           <div className="flex items-center gap-2">
-            <CircleDollarSign size={16} />
+            <CircleDollarSign size={16} className="text-primary" />
             Budget {data.budget} SOL
           </div>
           <div className="flex items-center gap-2">
-            <Languages size={16} />
+            <Languages size={16} className="text-primary" />
             Label language: {data.labelingLanguage}
           </div>
         </CardContent>
@@ -79,7 +79,7 @@ export default function MobileOrderView({ data }: { data: Order }) {
             )}
           </div>
           <div className="flex items-center">
-            <RulerDimensionLine size={16} />
+            <RulerDimensionLine size={16} className="text-primary" />
             <h1 className="ml-2">Image guidelines:</h1>
             <p>guidelines for users explaining how to take a picture.</p>
           </div>
