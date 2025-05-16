@@ -35,12 +35,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}>
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <Providers>
-          <BreadcrumbProvider>
-            <NavWrapper>
-              {children}
-              <Toaster />
-            </NavWrapper>
-          </BreadcrumbProvider>
+          { children }
         </Providers>
       </body>
     </html>

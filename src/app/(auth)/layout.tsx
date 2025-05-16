@@ -4,6 +4,7 @@ import NavWrapper from '@/components/Nav/NavWrapper';
 import { Toaster } from '@/components/ui/sonner';
 
 import { redirect } from 'next/navigation';
+import { BreadcrumbProvider } from '@/context/BreadcrumbContext';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,8 +34,12 @@ export default function RootLayout({
 
   return (
     <>
-      {children}
-      <Toaster />
+      <BreadcrumbProvider>
+        <NavWrapper>
+          {children}
+          <Toaster />
+        </NavWrapper>
+      </BreadcrumbProvider>
     </>
   );
 }
