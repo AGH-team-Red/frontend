@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { useForm } from 'react-hook-form'; 
+import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import WalletTabs from './WalletTabs';
@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 const formSchema = z.object({
-  amount: z
+  amount: z.coerce
     .number({
       required_error: 'Amount is required',
       invalid_type_error: 'Amount must be a number'
@@ -20,7 +20,7 @@ export default function WalletCard({ onCancel, fullPage = false }: { onCancel?: 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: 0
+      amount: '' as unknown as number
     }
   });
 
@@ -32,7 +32,7 @@ export default function WalletCard({ onCancel, fullPage = false }: { onCancel?: 
     <>
       {fullPage && (
         <div className="p-4">
-          <Button variant="ghost" onClick={onCancel} className="px-0 text-md">
+          <Button variant="ghost" onClick={onCancel} className="text-md px-0">
             ← Back
           </Button>
         </div>
