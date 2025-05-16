@@ -82,7 +82,6 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
       setStatus('Login successful! Redirecting...');
       login(data.token, data.user);
-      router.push('/dashboard');
     } catch (e: any) {
       console.error('Solana login error:', e);
       setError(e.message || 'Unexpected error occurred.');
