@@ -4,7 +4,7 @@ import { IconTooltip } from '@/components/IconTooltip';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PictureTask } from '@/lib/types';
-import { Citrus } from 'lucide-react';
+import { Image as ImageIcon, ImageDown } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import ImageUploadDropzone from '../ImageUploadDropzone/ImageUploadDropzone';
@@ -39,7 +39,7 @@ export default function TakingPictureTask({ pictureTask }: { pictureTask?: Pictu
           </div>
           <div className="flex items-center gap-2">
             <IconTooltip text="Dummy text">
-              <Citrus size={16} />
+              <ImageIcon size={16} />
             </IconTooltip>
             Image guidelines: {'TODO'}
           </div>
@@ -47,7 +47,7 @@ export default function TakingPictureTask({ pictureTask }: { pictureTask?: Pictu
       </Card>
       <div className="flex items-center gap-2 text-xs">
         <IconTooltip text="Dummy text">
-          <Citrus size={16} />
+          <ImageDown size={16} />
         </IconTooltip>
         Upload Image
       </div>

@@ -1,5 +1,5 @@
 import { ClientDetails, TCardDetails } from '@/components/OrderCard/types';
-import { Citrus } from 'lucide-react';
+import { SwatchBook, Calendar } from 'lucide-react';
 
 const createClientDetails = (clientDetails: ClientDetails): TCardDetails[] => {
   const {
@@ -8,13 +8,13 @@ const createClientDetails = (clientDetails: ClientDetails): TCardDetails[] => {
 
   return [
     {
-      icon: <Citrus size={16} />,
+      icon: <SwatchBook size={16} />,
       label: 'Samples collected: ',
       values: `${currentSamplesCount}/${minSamplesCount}`
     },
     {
-      icon: <Citrus size={16} />,
-      label: 'Active until: ',
+      icon: <Calendar size={16} />,
+      label: 'Active until:',
       values: new Date(`${endDate}`).toLocaleDateString('en-GB')
     }
   ];

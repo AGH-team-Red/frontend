@@ -1,5 +1,5 @@
 import { TCardDetails, UserDetails } from '@/components/OrderCard/types';
-import { Citrus } from 'lucide-react';
+import { Users, HandCoins, Calendar } from 'lucide-react';
 
 const createUserDetails = (userDetails: UserDetails): TCardDetails[] => {
   const {
@@ -10,17 +10,17 @@ const createUserDetails = (userDetails: UserDetails): TCardDetails[] => {
 
   return [
     {
-      icon: <Citrus size={16} />,
+      icon: <Users size={16} />,
       label: 'Contributors: ',
       values: isUser ? `${contributors}/${minContributors}` : ''
     },
     {
-      icon: <Citrus size={16} />,
+      icon: <HandCoins size={16} />,
       label: 'Entry fee: ',
       values: isUser ? `${entryFee} SOL` : ''
     },
     {
-      icon: <Citrus size={16} />,
+      icon: <Calendar size={16} />,
       label: 'Active until: ',
       values: new Date(`${endDate}`).toLocaleDateString('en-GB')
     }

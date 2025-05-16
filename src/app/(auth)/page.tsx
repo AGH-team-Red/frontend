@@ -7,6 +7,8 @@ import { useOrders } from '@/hooks/api/use-orders';
 import type { OrderStatus } from '@/lib/types';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useAuthContext } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 type RequestStatusFilter = 'All' | OrderStatus;
 
@@ -15,6 +17,12 @@ const FILTER_OPTIONS: RequestStatusFilter[] = ['All', 'Active', 'Pending', 'Comp
 export default function Requests() {
   const [activeFilter, setActiveFilter] = useState<RequestStatusFilter>('All');
   const orders = useOrders();
+  const router = useRouter();
+  const { token, user } = useAuthContext();
+
+  if (!token) {
+    router.push('/login');
+  }
 
   if (orders.isLoading) {
     return <div>Loading ...</div>;
@@ -33,7 +41,7 @@ export default function Requests() {
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-4 p-4">
-      <Link href="/requests/create-request" className="block">
+      <Link href="/order/create-request" className="block">
         <Button className="cursor-pointer">New order</Button>
       </Link>
 
@@ -52,7 +60,7 @@ export default function Requests() {
 
       <div className="grid grid-cols-1 place-items-center gap-2 lg:grid-cols-2 2xl:grid-cols-3">
         {filteredOrders.map((order) => (
-          <OrderCard key={order.id} userType="client" order={order} onClickRoute="requests/customer" />
+          <OrderCard key={order.id} userType="client" orderId={order.id} onClickRoute="order/browse" />
         ))}
       </div>
     </div>

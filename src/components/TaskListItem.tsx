@@ -1,25 +1,27 @@
 import { IconTooltip } from '@/components/IconTooltip';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { useOrder } from '@/hooks/api/use-order';
 import type { Task } from '@/lib/types';
 import { format } from 'date-fns';
 import { Citrus } from 'lucide-react';
 import Link from 'next/link';
+import { useOrder } from '@/hooks/api/use-order';
+import { Skeleton } from '@/components/Skeleton';
 
 export default function TaskListItem({ task }: { task: Task }) {
-  const { data, isLoading, error } = useOrder(task.orderId || '');
-
-  if (error || !data) {
-    return <div>Could not load tasks</div>;
-  }
+  console.log('task asdklfjaslkdjflaksdjf', task);
+  const { isLoading, error, data } = useOrder(task.orderId);
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <Skeleton />;
+  }
+
+  if (error || !data) {
+    return <div>Could not load order</div>;
   }
 
   return (
-    <Link key={task.id} href={`/my-tasks/${task.id}`} className="block">
+    <Link prefetch={false} key={task.id} href={`/my-tasks/${task.id}`} className="block">
       <Card className="py-3">
         <CardContent className="flex px-3 text-xs">
           <div className="flex flex-col gap-2">
@@ -29,7 +31,7 @@ export default function TaskListItem({ task }: { task: Task }) {
                 <Citrus size={16} />
               </IconTooltip>
               Type:{' '}
-              {task.type
+              {task?.type
                 .split('_')
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(' ')}

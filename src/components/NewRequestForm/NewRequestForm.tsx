@@ -16,7 +16,20 @@ import { useDatasetRequest } from '@/context/DatasetRequestContext';
 import { useCreateOrder } from '@/hooks/api/use-create-order';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
-import { CalendarIcon, Citrus, X } from 'lucide-react';
+import {
+  CalendarIcon,
+  Citrus,
+  CalendarArrowDown,
+  CalendarArrowUp,
+  FolderPen,
+  X,
+  CircleDollarSign,
+  Languages,
+  List,
+  SwatchBook,
+  ImageUpscale,
+  ImageUp
+} from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
@@ -90,7 +103,7 @@ export default function NewRequestForm() {
                     <FormLabel>
                       <IconTooltip text="Dummy text">
                         {/* TODO */}
-                        <Citrus size={16} />
+                        <FolderPen size={16} />
                       </IconTooltip>
                       Order name
                     </FormLabel>
@@ -108,7 +121,7 @@ export default function NewRequestForm() {
                   <FormItem className="flex flex-col">
                     <FormLabel>
                       <IconTooltip text="Dummy text">
-                        <Citrus size={16} />
+                        <CalendarArrowDown size={16} />
                       </IconTooltip>
                       Order start date
                     </FormLabel>
@@ -154,7 +167,7 @@ export default function NewRequestForm() {
                   <FormItem className="flex flex-col">
                     <FormLabel>
                       <IconTooltip text="Dummy text">
-                        <Citrus size={16} />
+                        <CalendarArrowUp size={16} />
                       </IconTooltip>
                       Order end date
                     </FormLabel>
@@ -194,7 +207,7 @@ export default function NewRequestForm() {
                   <FormItem>
                     <FormLabel>
                       <IconTooltip text="Dummy text">
-                        <Citrus size={16} />
+                        <CircleDollarSign size={16} />
                       </IconTooltip>
                       Order budget
                     </FormLabel>
@@ -218,7 +231,7 @@ export default function NewRequestForm() {
                   <FormItem>
                     <FormLabel>
                       <IconTooltip text="Dummy text">
-                        <Citrus size={16} />
+                        <Languages size={16} />
                       </IconTooltip>
                       Choose labeling language
                     </FormLabel>
@@ -251,7 +264,7 @@ export default function NewRequestForm() {
                     <FormLabel>
                       <IconTooltip text="Dummy text">
                         {/* TODO */}
-                        <Citrus size={16} />
+                        <List size={16} />
                       </IconTooltip>
                       Dataset description
                     </FormLabel>
@@ -274,7 +287,7 @@ export default function NewRequestForm() {
                     <FormLabel>
                       <IconTooltip text="Dummy text">
                         {/* TODO */}
-                        <Citrus size={16} />
+                        <SwatchBook size={16} />
                       </IconTooltip>
                       Minimal dataset samples count
                     </FormLabel>
@@ -304,7 +317,7 @@ export default function NewRequestForm() {
                     <FormLabel>
                       <IconTooltip text="Dummy text">
                         {/* TODO */}
-                        <Citrus size={16} />
+                        <ImageUpscale size={16} />
                       </IconTooltip>
                       Image guidelines:
                     </FormLabel>
@@ -327,7 +340,7 @@ export default function NewRequestForm() {
                     <FormLabel>
                       <IconTooltip text="Dummy text">
                         {/* TODO */}
-                        <Citrus size={16} />
+                        <ImageUp size={16} />
                       </IconTooltip>
                       Upload example image
                     </FormLabel>

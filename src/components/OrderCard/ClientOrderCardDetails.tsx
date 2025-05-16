@@ -1,13 +1,13 @@
 'use client';
 
+import { Card, CardContent } from '@/components/ui/card';
+import { Calendar, Users, Languages, HandCoins, LayoutList } from 'lucide-react';
 import DetailsCard from '@/components/DetailsCard';
 import DetailsHeader from '@/components/DetailsHeader';
 import ExampleImageCarousel from '@/components/ExampleImageCarousel';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { useBreadcrumb } from '@/context/BreadcrumbContext';
 import { useOrder } from '@/hooks/api/use-order';
-import { Citrus, Languages } from 'lucide-react';
 import { useEffect } from 'react';
 
 export default function ({ requestId }: { requestId: string }): React.ReactNode {
@@ -56,23 +56,23 @@ export default function ({ requestId }: { requestId: string }): React.ReactNode 
 
   const REQUEST_DETAILS_DATA = [
     {
-      icon: Citrus,
+      icon: Calendar,
       label: 'Request duration: ',
       // @ts-ignore
       value: `${new Date(`${data.startDate}`).toLocaleDateString('en-GB') ?? ''}-${new Date(`${data.endDate}`).toLocaleDateString('en-GB') ?? ''}`
     },
     {
-      icon: Citrus,
+      icon: HandCoins,
       label: 'Entry fee: ',
       value: `${data.entryFee ?? 0} SOL`
     },
     {
-      icon: Citrus,
+      icon: Users,
       label: 'Contributors: ',
       value: `${data.contributors ?? 0}/${data.minContributors ?? 0}`
     },
     {
-      icon: Citrus,
+      icon: LayoutList,
       label: 'Estimated tasks amount: ',
       value: '20'
     },

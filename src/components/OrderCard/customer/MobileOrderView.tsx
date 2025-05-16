@@ -1,9 +1,11 @@
+'use client';
+
 import ExampleImageDialog from '@/components/ExampleImageDialog';
 import ProgressCircle from '@/components/ProgressCircle';
 import { Card, CardContent } from '@/components/ui/card';
 import type { Order } from '@/lib/types';
+import { Calendar, CircleDollarSign, Languages, RulerDimensionLine } from 'lucide-react';
 import { STATUS_DISPLAY } from '@/lib/utils';
-import { CircleDollarSign, Citrus, Languages } from 'lucide-react';
 
 export default function MobileOrderView({ data }: { data: Order }) {
   const requestHeaderData = [
@@ -52,7 +54,7 @@ export default function MobileOrderView({ data }: { data: Order }) {
         <CardContent className="space-y-2.5 p-3 text-xs">
           <h2>Order parameters</h2>
           <div className="flex items-center gap-2">
-            <Citrus size={16} />
+            <Calendar size={16} />
             Order duration: {new Date(`${data.startDate}`).toLocaleDateString('en-GB')}
             {' - '}
             {new Date(`${data.endDate}`).toLocaleDateString('en-GB')}
@@ -77,7 +79,7 @@ export default function MobileOrderView({ data }: { data: Order }) {
             )}
           </div>
           <div className="flex items-center">
-            <Citrus size={16} />
+            <RulerDimensionLine size={16} />
             <h1 className="ml-2">Image guidelines:</h1>
             <p>guidelines for users explaining how to take a picture.</p>
           </div>
@@ -96,7 +98,7 @@ export default function MobileOrderView({ data }: { data: Order }) {
                       <h1>{feature.name}</h1>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Citrus size={16} />
+                      <RulerDimensionLine size={16} />
                       Label guidelines: {feature.labelGuidelines}
                     </div>
                     {/* <div className="flex items-center gap-2">

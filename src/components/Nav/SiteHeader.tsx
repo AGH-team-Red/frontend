@@ -1,6 +1,5 @@
 'use client';
 
-import { Command, SidebarIcon } from 'lucide-react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,10 +12,11 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useSidebar } from '@/components/ui/sidebar';
 import { useBreadcrumb } from '@/context/BreadcrumbContext';
+import { SidebarIcon } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Skeleton } from '../ui/skeleton';
-import Image from 'next/image';
 
 export function SiteHeader() {
   const { toggleSidebar } = useSidebar();
@@ -81,7 +81,7 @@ export function SiteHeader() {
         </Breadcrumb>
         <div className="justify-self-end">
           <Link href="/">
-            <Image src="/logo.png" alt="Logo" width={128} height={32} className="h-8 w-32" />
+            <Image priority loading="eager" src="/logo.png" alt="Logo" width={128} height={32} className="h-8 w-32" />
           </Link>
         </div>
       </div>

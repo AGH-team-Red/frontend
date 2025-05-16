@@ -1,13 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
-import { extractRouterConfig } from 'uploadthing/server';
-
-import './globals.css';
-import Providers from './providers';
 import NavWrapper from '@/components/Nav/NavWrapper';
 import { Toaster } from '@/components/ui/sonner';
-import { ourFileRouter } from '@//api/uploadthing/core';
+
+import { redirect } from 'next/navigation';
 import { BreadcrumbProvider } from '@/context/BreadcrumbContext';
 
 const geistSans = Geist({
@@ -30,14 +26,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isAuthenticated = true; // Custom logic
+
+  if (!isAuthenticated) {
+    redirect('/register');
+  }
+
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} dark antialiased`}>
-        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-        <Providers>
-          { children }
-        </Providers>
-      </body>
-    </html>
+    <>
+      <BreadcrumbProvider>
+        <NavWrapper>
+          {children}
+          <Toaster />
+        </NavWrapper>
+      </BreadcrumbProvider>
+    </>
   );
 }
