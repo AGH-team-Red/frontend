@@ -8,19 +8,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 const formSchema = z.object({
-  amount: z.coerce
-    .number({
-      required_error: 'Amount is required',
-      invalid_type_error: 'Amount must be a number'
-    })
-    .positive({ message: 'Amount must be a positive number.' })
+  amount: z
+    .union([
+      z.string().min(1, 'Amount is required'),
+      z.number().positive({ message: 'Amount must be a positive number.' })
+    ])
+    .pipe(z.coerce.number().positive({ message: 'Amount must be a positive number.' }))
 });
 
 export default function WalletCard({ onCancel, fullPage = false }: { onCancel?: () => void; fullPage?: boolean }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: '' as unknown as number
+      amount: ''
     }
   });
 

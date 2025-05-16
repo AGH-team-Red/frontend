@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { UseFormReturn } from 'react-hook-form'; 
+import { UseFormReturn } from 'react-hook-form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-
 interface WalletTabsProps {
-  form: UseFormReturn<{ amount: number }>; 
+  form: UseFormReturn<{ amount: number | string}>;
 }
 
 export default function WalletTabs({ form }: WalletTabsProps) {
@@ -31,8 +30,8 @@ export default function WalletTabs({ form }: WalletTabsProps) {
                     type="number"
                     {...field}
                     inputMode="decimal"
-                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
                     className="appearance-none"
+                    value={field.value ?? ''}
                   />
                 </FormControl>
                 <FormDescription>Enter the amount you want to deposit.</FormDescription>
@@ -57,7 +56,7 @@ export default function WalletTabs({ form }: WalletTabsProps) {
                     type="number"
                     {...field}
                     inputMode="decimal"
-                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                    value={field.value ?? ''}
                     className="appearance-none"
                   />
                 </FormControl>
