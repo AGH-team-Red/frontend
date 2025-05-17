@@ -1,30 +1,33 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
 import { LucideIcon } from 'lucide-react';
 
-type TDetailsData = {
+type DetailsData = {
   icon: LucideIcon;
   label: string;
   value: string;
 };
 
-type TDetailsCardProps = {
+type DetailsCardProps = {
+  className?: string;
   header: string;
-  detailsData: TDetailsData[];
+  detailsData: DetailsData[];
 };
 
-const DetailsCard = ({ header, detailsData }: TDetailsCardProps) => {
+const DetailsCard = ({ header, detailsData, className }: DetailsCardProps) => {
   return (
-    <Card className="p-0">
-      <CardContent className="space-y-2.5 p-3">
+    <Card className={cn('p-0 md:py-6', className)}>
+      <CardContent className="space-y-2.5 p-3 md:space-y-4 md:py-0 lg:px-3 xl:px-6">
         <h2 className="font-medium">{header}</h2>
 
         {detailsData.map((item) => (
-          <div key={item.value} className="flex items-center gap-2">
-            <item.icon />
-            <span className="text-sm">
-              {item.label}
-              {item.value}
-            </span>
+          <div key={item.value} className="flex items-center space-x-3">
+            <item.icon className="text-primary" />
+            <div>
+              <div className="text-sm text-gray-400">{item.label}</div>
+              <div>{item.value}</div>
+            </div>
           </div>
         ))}
       </CardContent>

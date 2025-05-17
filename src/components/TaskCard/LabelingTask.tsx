@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import TaskProgress from './TaskProgress';
 
 const formSchema = z.object({
   label: z.string().min(1, {
@@ -65,7 +66,6 @@ export default function LabelingTask({ labelTask }: { labelTask?: LabelTask }) {
 
     setStep((prev) => {
       if (prev + 1 >= totalSteps) {
-        console.log('All labels', labels, currentFeature.id, data.label);
         return prev;
       }
 
@@ -105,25 +105,21 @@ export default function LabelingTask({ labelTask }: { labelTask?: LabelTask }) {
             </Dialog>
           </div>
           <div className="flex items-center gap-2">
-            <IconTooltip text="Dummy text">
-              <Info size={16} />
-            </IconTooltip>
+            <IconTooltip tooltipText="Dummy text" Icon={Info} />
             Image guidelines: {currentFeature.featureLabel}
           </div>
         </CardContent>
       </Card>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-1 flex-col justify-between space-y-3">
           <FormField
             control={form.control}
             name="label"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  <IconTooltip text={'Enter details about this feature'}>
-                    <HelpCircle size={16} />
-                  </IconTooltip>
+                  <IconTooltip tooltipText={'Enter details about this feature'} Icon={HelpCircle} />
                   {currentFeature.featureLabel}
                 </FormLabel>
                 <FormControl>
@@ -138,15 +134,15 @@ export default function LabelingTask({ labelTask }: { labelTask?: LabelTask }) {
             )}
           />
 
-          <div className="flex items-center justify-between">
-            <Button variant="secondary" type="button" onClick={handleBack} disabled={step === 0}>
-              Back
-            </Button>
-            <Button type="submit">{step + 1 === totalSteps ? 'Submit' : 'Next'}</Button>
-          </div>
+          <div>
+            <div className="mb-4 flex items-center justify-between">
+              <Button variant="secondary" type="button" onClick={handleBack} disabled={step === 0}>
+                Back
+              </Button>
+              <Button type="submit">{step + 1 === totalSteps ? 'Submit' : 'Next'}</Button>
+            </div>
 
-          <div className="text-center text-xs text-gray-500">
-            Task {step + 1} of {totalSteps}
+            <TaskProgress current={step} max={totalSteps} />
           </div>
         </form>
       </Form>

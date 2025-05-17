@@ -1,8 +1,9 @@
 'use client';
 
-import { type CreateOrderFormSchema } from '@/components/NewRequestForm/NewRequestForm.utils';
+import { type CreateOrderFormSchema } from '@/components/NewOrderForm/NewOrderForm.utils';
 import type { Feature } from '@/lib/types';
 import { createContext, useContext, useMemo, useState } from 'react';
+import { ClientUploadedFileData } from 'uploadthing/types';
 
 export type NewFeature = Omit<Feature, 'orderId' | 'id'>;
 
@@ -13,6 +14,10 @@ type DatasetRequestContextType = {
   addFeature: (feature: NewFeature) => void;
   removeFeature: (id: string) => void;
   resetState: () => void;
+  image: ClientUploadedFileData<{
+    uploadedBy: string;
+  }> | null;
+  setImage: (image: ClientUploadedFileData<{ uploadedBy: string }> | null) => void;
 };
 
 const DatasetRequestContext = createContext<DatasetRequestContextType | undefined>(undefined);
@@ -29,6 +34,9 @@ export function DatasetRequestProvider({ children }: { children: React.ReactNode
     imageGuidelines: '',
     exampleImageUrl: ''
   });
+  const [image, setImage] = useState<ClientUploadedFileData<{
+    uploadedBy: string;
+  }> | null>(null);
   const [features, setFeatures] = useState<NewFeature[]>([]);
 
   const updateFormData = (data: Partial<CreateOrderFormSchema>) => {
@@ -46,6 +54,7 @@ export function DatasetRequestProvider({ children }: { children: React.ReactNode
   const resetState = () => {
     setFormData({});
     setFeatures([]);
+    setImage(null);
   };
 
   const value = useMemo(
@@ -55,9 +64,11 @@ export function DatasetRequestProvider({ children }: { children: React.ReactNode
       features,
       addFeature,
       removeFeature,
+      image,
+      setImage,
       resetState
     }),
-    [formData, features, updateFormData, addFeature, removeFeature, resetState]
+    [formData, features, updateFormData, addFeature, removeFeature, resetState, image, setImage]
   );
 
   return <DatasetRequestContext.Provider value={value}>{children}</DatasetRequestContext.Provider>;

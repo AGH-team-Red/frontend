@@ -4,7 +4,7 @@ import { IconTooltip } from '@/components/IconTooltip';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PictureTask } from '@/lib/types';
-import { Citrus } from 'lucide-react';
+import { Image as ImageIcon, ImageDown } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import ImageUploadDropzone from '../ImageUploadDropzone/ImageUploadDropzone';
@@ -38,17 +38,13 @@ export default function TakingPictureTask({ pictureTask }: { pictureTask?: Pictu
             />
           </div>
           <div className="flex items-center gap-2">
-            <IconTooltip text="Dummy text">
-              <Citrus size={16} />
-            </IconTooltip>
+            <IconTooltip tooltipText="Dummy text" Icon={ImageIcon} />
             Image guidelines: {'TODO'}
           </div>
         </CardContent>
       </Card>
       <div className="flex items-center gap-2 text-xs">
-        <IconTooltip text="Dummy text">
-          <Citrus size={16} />
-        </IconTooltip>
+        <IconTooltip tooltipText="Dummy text" Icon={ImageDown} />
         Upload Image
       </div>
       <ImageUploadDropzone
@@ -57,12 +53,14 @@ export default function TakingPictureTask({ pictureTask }: { pictureTask?: Pictu
         isUploading={isUploading}
         setIsUploading={setIsUploading}
       />
-      <Button
-        disabled={isUploading || !image?.ufsUrl || image?.ufsUrl === ''}
-        onClick={() => console.log('Image saved:', image?.ufsUrl)} // TODO: SEND IMAGE TO BACKEND
-      >
-        Save Image
-      </Button>
+      <div className="mt-auto flex justify-end md:mt-0">
+        <Button
+          disabled={isUploading || !image?.ufsUrl || image?.ufsUrl === ''}
+          onClick={() => console.log('Image saved:', image?.ufsUrl)} // TODO: SEND IMAGE TO BACKEND
+        >
+          Save Image
+        </Button>
+      </div>
     </>
   );
 }

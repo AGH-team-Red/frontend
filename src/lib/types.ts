@@ -82,3 +82,21 @@ export interface PictureTask {
   taskId: string;
   exampleImgUrl?: string;
 }
+
+export interface Verification {
+  publicKey: string;
+  signature: string;
+}
+
+export interface VerificationResult {
+  token: string;
+}
+
+export type User = { id: string; email?: string };
+
+export type AuthContextType = {
+  user: User | null;
+  token: string | null;
+  login: (token: string, user: User) => void;
+  logout: () => void;
+};

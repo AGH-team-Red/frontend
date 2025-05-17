@@ -1,33 +1,32 @@
 import { IconTooltip } from '@/components/IconTooltip';
+import { Skeleton } from '@/components/Skeleton';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useOrder } from '@/hooks/api/use-order';
 import type { Task } from '@/lib/types';
 import { format } from 'date-fns';
-import { Citrus } from 'lucide-react';
+import { Clock5, DollarSign, Tag } from 'lucide-react';
 import Link from 'next/link';
 
 export default function TaskListItem({ task }: { task: Task }) {
-  const { data, isLoading, error } = useOrder(task.orderId || '');
-
-  if (error || !data) {
-    return <div>Could not load tasks</div>;
-  }
+  const { isLoading, error, data } = useOrder(task.orderId);
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <Skeleton />;
+  }
+
+  if (error || !data) {
+    return <div>Could not load order</div>;
   }
 
   return (
-    <Link key={task.id} href={`/my-tasks/${task.id}`} className="block">
+    <Link prefetch={false} key={task.id} href={`/my-tasks/${task.id}`} className="block">
       <Card className="py-3">
-        <CardContent className="flex px-3 text-xs">
-          <div className="flex flex-col gap-2">
-            <h2 className="text-base font-medium">{data.name}</h2>
+        <CardContent className="flex gap-4 px-3 text-xs md:flex-col md:px-4 md:py-1 md:text-sm">
+          <div className="flex flex-col gap-2 text-zinc-400">
+            <h2 className="text-base font-medium text-white md:text-lg">{data.name}</h2>
             <div className="flex items-center gap-2">
-              <IconTooltip text="Dummy text">
-                <Citrus size={16} />
-              </IconTooltip>
+              <IconTooltip tooltipText="Dummy text" Icon={Tag} />
               Type:{' '}
               {task.type
                 .split('_')
@@ -35,15 +34,11 @@ export default function TaskListItem({ task }: { task: Task }) {
                 .join(' ')}
             </div>
             <div className="flex items-center gap-2">
-              <IconTooltip text="Dummy text">
-                <Citrus size={16} />
-              </IconTooltip>
+              <IconTooltip tooltipText="Dummy text" Icon={Clock5} />
               Deadline: {format(task.endDate, 'P')}
             </div>
             <div className="flex items-center gap-2">
-              <IconTooltip text="Dummy text">
-                <Citrus size={16} />
-              </IconTooltip>
+              <IconTooltip tooltipText="Dummy text" Icon={DollarSign} />
               Estimated Reward: ~{task.estimatedReward}
               SOL
             </div>

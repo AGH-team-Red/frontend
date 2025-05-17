@@ -1,6 +1,13 @@
 'use client';
 
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import '@solana/wallet-adapter-react-ui/styles.css';
+import { useMemo } from 'react';
+import { AuthProvider } from '@/context/AuthContext';
 
 function makeQueryClient() {
   return new QueryClient({
@@ -39,6 +46,25 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   //       suspend because React will throw away the client on the initial
   //       render if it suspends and there is no boundary
   const queryClient = getQueryClient();
+  const network = WalletAdapterNetwork.Devnet;
+  const endpoint = useMemo(() => `https://api.${network}.solana.com`, [network]);
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
 
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return (
+    <ConnectionProvider endpoint={endpoint}>
+      <WalletProvider
+        wallets={wallets}
+        autoConnect={false}
+        onError={(error) => {
+          console.error('Wallet connection error', error.message, error.cause, error.stack);
+        }}
+      >
+        <AuthProvider>
+          <WalletModalProvider>
+            <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+          </WalletModalProvider>
+        </AuthProvider>
+      </WalletProvider>
+    </ConnectionProvider>
+  );
 }

@@ -14,8 +14,8 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
+import { useAuthContext } from '@/context/AuthContext';
 import WalletCard from '../WalletCard/WalletCard';
-
 
 export function NavUser({
   user
@@ -26,6 +26,7 @@ export function NavUser({
     avatar: string;
   };
 }) {
+  const { user: userContext } = useAuthContext();
   const { isMobile, setOpenMobile } = useSidebar();
   const [walletOpen, setWalletOpen] = React.useState(false);
 
@@ -44,8 +45,8 @@ export function NavUser({
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate font-medium">{userContext?.id}</span>
+                <span className="truncate text-xs">{userContext?.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -80,13 +81,12 @@ export function NavUser({
               <DropdownMenuItem
                 onSelect={() => {
                   if (isMobile) {
-                    router.push('/account'); 
-                    setOpenMobile(false)
+                    router.push('/account');
+                    setOpenMobile(false);
                   } else {
-                    setWalletOpen(true); 
+                    setWalletOpen(true);
                   }
                 }}
-                
               >
                 <BadgeCheck />
                 Account
@@ -108,9 +108,9 @@ export function NavUser({
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
-      <Dialog open={walletOpen} onOpenChange={setWalletOpen} >
+      <Dialog open={walletOpen} onOpenChange={setWalletOpen}>
         <DialogTitle></DialogTitle>
-        <DialogContent renderCloseButton = {false} className="max-w-fit border-none bg-transparent p-0 shadow-none">
+        <DialogContent renderCloseButton={false} className="max-w-fit border-none bg-transparent p-0 shadow-none">
           <WalletCard onCancel={() => setWalletOpen(false)} />
         </DialogContent>
       </Dialog>

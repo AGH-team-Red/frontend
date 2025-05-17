@@ -7,7 +7,7 @@ import { Task } from '@/lib/types';
 const useTask = (taskId: string) => {
   const { data, error, isLoading } = useQuery<Task>({
     queryFn: async () => await fetchTask(taskId),
-    queryKey: ['order', taskId]
+    queryKey: ['task', taskId]
   });
 
   return {

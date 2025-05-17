@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, LifeBuoy, MailSearch, Send, Settings2 } from 'lucide-react';
+import { ClipboardList, LifeBuoy, ListTodo, SearchCheck, Send } from 'lucide-react';
 import * as React from 'react';
 
 import { NavMain } from '@/components/Nav/NavMain';
@@ -16,19 +16,19 @@ const data = {
   },
   navMain: [
     {
-      title: 'Home',
+      title: 'Orders',
       url: '/',
-      icon: Home
+      icon: ClipboardList
     },
     {
-      title: 'Requests',
-      url: '/requests',
-      icon: MailSearch
+      title: 'Browse Tasks',
+      url: '/order/browse',
+      icon: SearchCheck
     },
     {
-      title: 'Settings',
-      url: '/settings',
-      icon: Settings2
+      title: 'My Tasks',
+      url: '/my-tasks',
+      icon: ListTodo
     }
   ],
   navSecondary: [
