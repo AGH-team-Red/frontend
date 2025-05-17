@@ -127,3 +127,15 @@
 .uploader > div {
   @apply mt-0 w-full lg:mt-2;
 }
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+.dialog-no-close [data-dialog-close] {
+  display: none !important;
+}
