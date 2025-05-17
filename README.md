@@ -1,11 +1,21 @@
+## Frontend Repo for Quelldata app
+
+### Requirements
+
+- pnpm
+- node.js 18+
+- backend repo up and running: [https://github.com/AGH-team-Red/backend](https://github.com/AGH-team-Red/backend)
+
 ## Getting Started
 
-First, run the development server:
+Make sure you have backend running on localhost:3005
 
 ```bash
-pnpm dev
+pnpm install # install the dependencies
+
+pnpm dev # start the development server
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+For file uploading you need to provide [env](.env.example) with uploadthing token
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
