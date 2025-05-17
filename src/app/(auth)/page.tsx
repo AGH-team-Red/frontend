@@ -7,8 +7,8 @@ import { useOrders } from '@/hooks/api/use-orders';
 import type { OrderStatus } from '@/lib/types';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useAuthContext } from '@/context/AuthContext';
-import { useRouter } from 'next/navigation';
+// import { useAuthContext } from '@/context/AuthContext';
+// import { useRouter } from 'next/navigation';
 
 type RequestStatusFilter = 'All' | OrderStatus;
 
@@ -17,12 +17,12 @@ const FILTER_OPTIONS: RequestStatusFilter[] = ['All', 'Active', 'Pending', 'Comp
 export default function Requests() {
   const [activeFilter, setActiveFilter] = useState<RequestStatusFilter>('All');
   const orders = useOrders();
-  const router = useRouter();
-  const { token, user } = useAuthContext();
+  // const router = useRouter();
+  // const { token, user } = useAuthContext();
 
-  if (!token) {
-    router.push('/login');
-  }
+  // if (!token) {
+  //   router.push('/login');
+  // }
 
   if (orders.isLoading) {
     return <div>Loading ...</div>;
